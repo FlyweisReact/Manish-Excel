@@ -27,6 +27,9 @@ export const SignIn = (data) => (dispatch) => {
     .post(`${BASE_URL}/api/v1/admin/login`, data)
     .then((response) => {
       localStorage.setItem("userData", JSON.stringify(response.data));
+      console.log(response?.data?.accessToken);
+      localStorage.setItem("token", response?.data?.accessToken);
+      console.log(localStorage.getItem("userData"));
       return dispatch({
         type: types.SIGNIN_SUCCESS_REQUEST,
         payload: response.data,

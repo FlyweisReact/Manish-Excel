@@ -29,6 +29,7 @@ export const SiderBar = () => {
   const navigate = useNavigate();
   const HandleLogout = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem("token");
     navigate("/");
   };
   return (

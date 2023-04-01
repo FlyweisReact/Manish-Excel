@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
@@ -6,13 +6,36 @@ import styles from "../../Styles/TotalCustomer.module.css";
 import { BsEyeFill } from "react-icons/bs";
 import { SingleCostomerInfoModal } from "./SingleCostomerInfoModal";
 import { AddCustomerModal } from "./AddCustomerModal";
+import axios from "axios";
+
 export const TotalCustomerMainSection = () => {
   const [tab, setTab] = useState("all");
   const [CustomerInfoModal, setCustomerInfoModal] = useState(false);
   const [addCustModal, setAddCustModal] = useState(false);
+  const [customers, setCustomers] = useState([]);
   const HandleModal = () => {
     setCustomerInfoModal(!CustomerInfoModal);
   };
+
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/users";
+
+  const getAllUsers = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      //console.log(res?.data?.data?.data);
+      setCustomers(res?.data?.data?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   const HandleAddCustoModal = () => {
     setAddCustModal(!addCustModal);
   };
@@ -100,8 +123,8 @@ export const TotalCustomerMainSection = () => {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Theraphy</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Address</th>
                 <th>State</th>
                 <th>District</th>
@@ -112,13 +135,13 @@ export const TotalCustomerMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? all?.map((ele) => (
+                ? customers?.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.name}</td>
-                        <td>{ele.theraphy}</td>
+                        <td>{ele.middleName}</td>
+                        <td>{ele.lastName}</td>
 
-                        <td>{ele.address}</td>
+                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
                         <td>{ele.state}</td>
                         <td>{ele.district}</td>
                         <td>{ele.town}</td>

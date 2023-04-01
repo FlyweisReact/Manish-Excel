@@ -6,9 +6,92 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../../Redux/Auth/action";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios";
+
+function MyVerticallyCenteredModal(props) {
+  const ud = localStorage.getItem("token");
+  const [productId, setPid] = useState("");
+  const [productName, setPname] = useState("");
+  const [stock, setStock] = useState("");
+  const [quantity, setQ] = useState("");
+  const [price, setPrice] = useState("");
+  const image = "https://i.mydramalist.com/R6W7x_5f.jpg";
+  //console.log(image, productId, productName, stock, quantity, price);
+  const dispatch = useDispatch();
+  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products";
+  const handleClick = async (e)=>{
+    e.preventDefault();
+    try{
+      console.log(image, productId, productName, stock, quantity, price);
+      const res = await axios.post(url,
+        {image,productId, productName, stock, quantity, price} ,
+        {
+         headers :{
+          Authorization:`Bearer ${ud}`,
+         }
+        } 
+      )
+      console.log(res?.data);
+      dispatch(getAllProducts());
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <form onSubmit={handleClick}>
+        <label for="name">Product Id</label>
+        <input type="text" id="name" name="name" required />
+        
+        <label for="email">Product Name</label>
+        <input type="text" id="email" name="email" required onChange={(e)=>setPid(e.target.value)}/>
+        
+        <label for="password">Stock</label>
+        <input type="text" id="password" name="password" required onChange={(e)=>setPname(e.target.value)}/>
+        
+        <label for="phone">Quantity</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
+         onChange={(e)=>setStock(e.target.value)}
+        />
+        <label for="phone">Quantity</label>
+        <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
+          onChange={(e)=>setQ(e.target.value)}
+        />
+        <label for="phone">Price</label>
+        <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
+          onChange={(e)=>setPrice(e.target.value)}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+
+
 export const TotalProductMainSection = () => {
   const [tab, setTab] = useState("all");
   const [searchData, setSearchData] = useState([]);
+  const [modalShow, setModalShow] = React.useState(false);
   const dispatch = useDispatch();
   var products = useSelector((state) => state.AuthReducer.products);
   const HandleSearch = (e) => {
@@ -52,7 +135,7 @@ export const TotalProductMainSection = () => {
           <h1 className={stylesfromDash.Title}>
             Total Products({products.length})
           </h1>
-          <button>Add Products</button>
+          <button onClick={setModalShow}>Add Products</button>
         </div>
       </div>
       <div className={styles.ProductMain}>
@@ -210,6 +293,10 @@ export const TotalProductMainSection = () => {
           </table>
         </div>
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

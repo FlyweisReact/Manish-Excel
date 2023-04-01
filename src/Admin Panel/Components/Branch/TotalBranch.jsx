@@ -7,14 +7,70 @@ import { BranchList } from "./BranchList";
 import { BranchLogin } from "./BranchLogin";
 import { useDispatch, useSelector } from "react-redux";
 import { GetBranches } from "../../../Redux/Auth/action";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios";
+
+function MyVerticallyCenteredModal(props) {
+  const ud = localStorage.getItem("token");
+  const [branch, setBranch] = useState("");
+  const dispatch = useDispatch();
+  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/branches";
+  const handleClick = async (e)=>{
+    e.preventDefault();
+    try{
+
+      const res = await axios.post(url,
+        {branch} ,
+        {
+         headers :{
+          Authorization:`Bearer ${ud}`,
+         }
+        } 
+      )
+      console.log(res);
+      dispatch(GetBranches());
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  console.log(branch);
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleClick}>
+          <label>Branch</label>
+          <input type="text" onChange={(e)=>setBranch(e.target.value)} required/>
+          <button type="submit"  >Add Branch</button>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
 export const TotalBranch = () => {
   const branches = useSelector((state) => state.AuthReducer.branches);
   const [show, setShow] = useState(false);
+  const [modalShow, setModalShow] = React.useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetBranches());
   }, [dispatch]);
-  console.log(branches);
+  //console.log(branches);
 
   const HandleBranchLoginModal = () => {
     setShow(!show);
@@ -32,7 +88,8 @@ export const TotalBranch = () => {
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
           <input type="text" placeholder="Search by branch name" />
         </div>
-        <button>Add Branch</button>
+        <button onClick={()=>setModalShow(true)}>
+          Add Branch</button>
       </div>
       <div className={styles.branchListDiv}>
         <BranchLogin
@@ -50,6 +107,10 @@ export const TotalBranch = () => {
           </>
         ))}
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

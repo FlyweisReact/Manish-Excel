@@ -1,16 +1,94 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/HubAndCities.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getHubAndCities } from "../../../Redux/Auth/action";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+
+function MyVerticallyCenteredModal(props) {
+  const ud = localStorage.getItem("token");
+  const [city, setCity] = useState("");
+  const dispatch = useDispatch();
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/hub-cities";
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        url,
+        { city },
+        {
+          headers: {
+            Authorization: `Bearer ${ud}`,
+          },
+        }
+      );
+      // console.log(res);
+      dispatch(getHubAndCities());
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  //  console.log(branch);
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleClick}>
+          <label for="name">City</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            onChange={(e) => setCity(e.target.value)}
+          />
+
+          <input type="submit" value="Submit" />
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
 export const HubAndCitiesMainSection = () => {
   const dispatch = useDispatch();
   const citys = useSelector((state) => state.AuthReducer.citys);
+  const [modalShow, setModalShow] = React.useState(false);
   useEffect(() => {
     dispatch(getHubAndCities());
   }, [dispatch]);
-  console.log(citys?.data);
+  //  console.log(citys?.data);
+
+  const handleDelete = async (id) => {
+    const ud = localStorage.getItem("token");
+    const url = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/hub-cities/${id}`;
+    try {
+      const res = await axios.delete(url, {
+        headers: { Authorization: `Bearer ${ud}` },
+      });
+      //console.log(res);
+      dispatch(getHubAndCities());
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -18,7 +96,7 @@ export const HubAndCitiesMainSection = () => {
       <div className={stylesfromDash.mainOrderSection}>
         <div className={styles.TitleSection}>
           <h1 className={stylesfromDash.Title}>Hub And Cities</h1>
-          <button>Add </button>
+          <button onClick={() => setModalShow(true)}>Add </button>
         </div>
         <div className={styles.CityMainDiv}>
           {citys?.data?.map((ele) => (
@@ -31,12 +109,16 @@ export const HubAndCitiesMainSection = () => {
                   alt="x"
                 />
                 <p>{ele.city}</p>
-                <button>Delete</button>
+                <button onClick={() => handleDelete(ele._id)}>Delete</button>
               </div>
             </>
           ))}
         </div>
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };
