@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
@@ -6,16 +6,39 @@ import styles from "../../Styles/TotalCustomer.module.css";
 import { BsEyeFill } from "react-icons/bs";
 import { SingleCostomerInfoModal } from "./SingleCostomerInfoModal";
 import { AddCustomerModal } from "./AddCustomerModal";
+import axios from "axios";
+
 export const TotalCustomerMainSection = () => {
   const [tab, setTab] = useState("all");
   const [CustomerInfoModal, setCustomerInfoModal] = useState(false);
   const [addCustModal, setAddCustModal] = useState(false);
+  const [customer, setCustomer] = useState([]);
   const HandleModal = () => {
     setCustomerInfoModal(!CustomerInfoModal);
   };
   const HandleAddCustoModal = () => {
     setAddCustModal(!addCustModal);
   };
+
+  const getAllCustomers = async (url) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(res?.data?.data?.data);
+      setCustomerInfoModal(res?.data?.data?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    const url =
+      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/users";
+    getAllCustomers(url);
+  }, []);
+
   const all = [
     {
       name: "ABC",

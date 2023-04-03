@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/PrivacyPolicy.module.css";
 export const TermAndConditionMainSec = () => {
+  const [terms, setTerms] = useState();
+  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/terms";
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />

@@ -64,10 +64,6 @@ function MyVerticallyCenteredModal(props) {
         <input type="text" id="password" name="password" required onChange={(e)=>setPname(e.target.value)}/>
         
         <label for="phone">Quantity</label>
-        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
-         onChange={(e)=>setStock(e.target.value)}
-        />
-        <label for="phone">Quantity</label>
         <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
           onChange={(e)=>setQ(e.target.value)}
         />
