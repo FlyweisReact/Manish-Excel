@@ -174,6 +174,7 @@ export const Register = () => {
                 </option>
               </>
             ))}
+            <option value="Sub-Admin">Sub Admin</option>
           </select>
         </div>
       </div>

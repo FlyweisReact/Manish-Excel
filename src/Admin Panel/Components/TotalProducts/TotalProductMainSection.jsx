@@ -40,6 +40,7 @@ function MyVerticallyCenteredModal(props) {
       console.log(err.message);
     }
   }
+  console.log(image, productId, productName, stock, quantity, price);
   return (
     <Modal
       {...props}
@@ -54,21 +55,21 @@ function MyVerticallyCenteredModal(props) {
       </Modal.Header>
       <Modal.Body>
       <form onSubmit={handleClick}>
-        <label for="name">Product Id</label>
-        <input type="text" id="name" name="name" required />
+        <label >Product Id</label>
+        <input type="text" id="name" name="name" required onChange={(e)=>setPid(e.target.value)}/>
         
-        <label for="email">Product Name</label>
-        <input type="text" id="email" name="email" required onChange={(e)=>setPid(e.target.value)}/>
+        <label >Product Name</label>
+        <input type="text" id="email" name="email" required onChange={(e)=>setPname(e.target.value)}/>
         
-        <label for="password">Stock</label>
-        <input type="text" id="password" name="password" required onChange={(e)=>setPname(e.target.value)}/>
+        <label >Stock</label>
+        <input type="text" id="password" name="password" required onChange={(e)=>setStock(e.target.value)}/>
         
-        <label for="phone">Quantity</label>
-        <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
+        <label >Quantity</label>
+        <input type="text" id="phone" name="phone"  required 
           onChange={(e)=>setQ(e.target.value)}
         />
         <label for="phone">Price</label>
-        <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required 
+        <input type="text" id="phone" name="phone"  required 
           onChange={(e)=>setPrice(e.target.value)}
         />
         <input type="submit" value="Submit" />

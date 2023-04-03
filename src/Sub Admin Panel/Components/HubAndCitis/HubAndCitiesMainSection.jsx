@@ -18,7 +18,7 @@ export const HubAndCitiesMainSection = () => {
       "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/hub-cities";
 
 
-  const getAllCities = async (url) => {
+  const getAllCities = async () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.get(url, {
@@ -34,7 +34,7 @@ export const HubAndCitiesMainSection = () => {
   useEffect(() => {
     
 
-    getAllCities(url);
+    getAllCities();
   }, []);
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -46,7 +46,7 @@ export const HubAndCitiesMainSection = () => {
         headers: { Authorization: `Bearer ${ud}` },
       });
       //console.log(res);
-      getAllCities(url);
+      getAllCities();
     } catch (err) {
       console.log(err.message);
     }
@@ -73,7 +73,7 @@ export const HubAndCitiesMainSection = () => {
           }
         );
          //console.log(res?.data);
-         getAllCities(url);
+         getAllCities();
         
       } catch (err) {
         console.log(err.message);

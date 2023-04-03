@@ -2,9 +2,27 @@ import React, {useState, useEffect} from "react";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/PrivacyPolicy.module.css";
+import axios from 'axios';
 export const TermAndConditionMainSec = () => {
   const [terms, setTerms] = useState();
   const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/terms";
+  
+  const getTerms = async ()=>{
+    const token = localStorage.getItem("token");
+    try{
+      const res = await axios.get(url,
+         {
+          headers:{Authorization:`Bearer ${token}`}
+         }
+      )
+      setTerms(res?.data?.data?.content);
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  useEffect(()=>{
+    getTerms();
+  },[])
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -16,20 +34,7 @@ export const TermAndConditionMainSec = () => {
       <hr style={{ width: "90%", marginTop: "-10px" }} />
       <div className={styles.TextSection}>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          magnam, pariatur est nihil obcaecati explicabo, voluptatum ratione
-          corporis maxime eius a sed veritatis quis hic quam mollitia accusamus
-          assumenda delectus! Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. A, deleniti! Eligendi, obcaecati natus itaque illo soluta,
-          debitis inventore rerum cumque veritatis nemo minima amet corporis
-          impedit? Inventore libero esse enim. Placeat accusantium, recusandae
-          amet fuga nam beatae nostrum perspiciatis eveniet vel impedit! Officia
-          quos, rem similique doloremque, error sequi, dolore distinctio hic
-          temporibus iusto architecto totam minus eveniet animi. Minus! Labore
-          suscipit quaerat non minus, fugit exercitationem doloremque incidunt,
-          omnis illum qui ducimus rerum asperiores aliquid! Ducimus dolore,
-          illo, doloribus saepe accusamus fuga iure iste voluptatibus doloremque
-          laborum, quidem repellat!
+          {terms}
         </p>
       </div>
       <div className={styles.termAndConditionLastDiv}>

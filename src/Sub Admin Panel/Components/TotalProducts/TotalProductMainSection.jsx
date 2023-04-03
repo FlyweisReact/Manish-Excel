@@ -112,13 +112,13 @@ export const TotalProductMainSection = () => {
         <Modal.Body>
         <form onSubmit={handleClick}>
           <label for="name">Product Id</label>
-          <input type="text" id="name" name="name" required />
+          <input type="text" id="name" name="name" required onChange={(e)=>setPid(e.target.value)}/>
           
           <label for="email">Product Name</label>
-          <input type="text" id="email" name="email" required onChange={(e)=>setPid(e.target.value)}/>
+          <input type="text" id="email" name="email" required onChange={(e)=>setPname(e.target.value)}/>
           
           <label for="password">Stock</label>
-          <input type="text" id="password" name="password" required onChange={(e)=>setPname(e.target.value)}/>
+          <input type="text" id="password" name="password" required onChange={(e)=>setStock(e.target.value)}/>
           
           <label for="phone">Quantity</label>
           <input type="text" id="phone" name="phone"  required 
@@ -140,6 +140,23 @@ export const TotalProductMainSection = () => {
   }
 
   const [modalShow, setModalShow] = React.useState(false);
+
+  const handleDelete = async (id)=>{
+    console.log(id);
+    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products/${id}`;
+    const token = localStorage.getItem("token");
+    try{
+      const res = await axios.delete(urld,
+      {
+        headers:{Authorization:`Bearer ${token}`}
+      }  
+    )
+  //  console.log(res?.data);
+    getAllProducts();
+    }catch(err){
+      console.log(err.message);
+    }
+  }
   
 
   return (
@@ -198,6 +215,7 @@ export const TotalProductMainSection = () => {
                 <th>In Stock</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Delete</th>
               </tr>
             </thead>
 
@@ -232,6 +250,7 @@ export const TotalProductMainSection = () => {
                         <td>{ele.quantity}</td>
 
                         <td>&#x20b9;{ele.price}</td>
+                        <td><button onClick={()=>handleDelete(ele._id)}>Delete</button></td>
                       </tr>
                     </>
                   ))

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/Report.module.css";
@@ -8,8 +8,30 @@ import { FiFilter } from "react-icons/fi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFilterLeft } from "react-icons/bs";
 import { IoMdCloudDownload } from "react-icons/io";
+import axios from "axios";
+
 export const ReportMainSection = () => {
   const [tab, setTab] = useState("all");
+  const [barData, setBarData] = useState([]);
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/countorders";
+
+  const getBarData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setBarData(res?.data?.data);
+      //  console.log(res?.data?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  useEffect(() => {
+    getBarData();
+  }, []);
+
   const all = [
     {
       company_name: "abcc",
@@ -19,30 +41,26 @@ export const ReportMainSection = () => {
       quantity: "22",
     },
   ];
+  const lab = [];
+  const bar_data = [];
+  barData?.map((item) => {
+    lab.push(item?.month);
+    bar_data.push(item?.orderCount);
+  });
+  // console.log(lab);
+  // console.log(bar_data);
   const chartData = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "July",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    labels: lab,
     datasets: [
       {
-        data: [300, 200, 50, 100, 320, 250, 280, 300, 300, 300, 290, 300],
+        data: bar_data,
         backgroundColor: "#6092C0",
         barThickness: "60",
         padding: "5",
       },
     ],
   };
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />

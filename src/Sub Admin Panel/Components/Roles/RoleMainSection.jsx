@@ -1,52 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/Roles.module.css";
 import { AiOutlineSearch } from "react-icons/ai";
+import axios from "axios";
+
 export const RoleMainSection = () => {
   const [tab, setTab] = useState("all");
-  const all = [
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 12,
-    },
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 13,
-    },
-  ];
-  const admin = [
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 12,
-    },
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 12,
-    },
-  ];
-  const subAdmin = [
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 12,
-    },
-    {
-      name: "Sameer Khurana",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331",
-      role: "Admin",
-      id: 12,
-    },
-  ];
+  const [all, setAll] = useState([]);
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin";
+  const getAllAdmins = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(res?.data?.data);
+      setAll(res?.data?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  useEffect(() => {
+    getAllAdmins();
+  }, []);
+
+  const admin = [];
+  const sub_admin = [];
+
+  all?.map((item) => {
+    if (item?.role == "Admin") {
+      admin.push(item);
+    } else if (
+      item?.role === "Sub-Admin" ||
+      item?.role === "Sub-admin" ||
+      item?.role === "sub-admin"
+    ) {
+      sub_admin.push(item);
+    }
+  });
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -91,71 +85,38 @@ export const RoleMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? all?.map((ele) => (
+                ? all?.map((ele, i) => (
                     <>
                       <tr>
                         <td>
-                          <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={ele.img}
-                              alt="x"
-                            />
-                            {ele.name}
-                          </div>
+                          <div>{ele.lastName}</div>
                         </td>
-                        <td>{ele.id}</td>
+                        <td>{i + 1}</td>
 
                         <td>{ele.role}</td>
                       </tr>
                     </>
                   ))
                 : tab === "admin"
-                ? admin?.map((ele) => (
+                ? admin?.map((ele, i) => (
                     <>
                       <tr>
                         <td>
-                          <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={ele.img}
-                              alt="x"
-                            />
-                            {ele.name}
-                          </div>
+                          <div>{ele.lastName}</div>
                         </td>
-                        <td>{ele.id}</td>
+                        <td>{i + 1}</td>
 
                         <td>{ele.role}</td>
                       </tr>
                     </>
                   ))
-                : subAdmin?.map((ele) => (
+                : sub_admin?.map((ele, i) => (
                     <>
                       <tr>
                         <td>
-                          <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={ele.img}
-                              alt="x"
-                            />
-                            {ele.name}
-                          </div>
+                          <div>{ele.lastName}</div>
                         </td>
-                        <td>{ele.id}</td>
+                        <td>{i + 1}</td>
 
                         <td>{ele.role}</td>
                       </tr>
