@@ -5,17 +5,42 @@ import styles from "../../Styles/Roles.module.css";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAdmins } from "../../../Redux/Auth/action";
+import axios from 'axios';
 export const RoleMainSection = () => {
   const [tab, setTab] = useState("all");
-  const dispatch = useDispatch();
-  const AllAdmins = useSelector((state) => state.AuthReducer.AllAdmins);
-
-  const admin = AllAdmins?.filter((ele) => ele.role === "Admin");
-  const subAdmin = AllAdmins.filter((ele) => ele.role === "Sub-Admin");
+  const [all, setAll] = useState([]);
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin";
+  const getAllAdmins = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(res?.data?.data);
+      setAll(res?.data?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   useEffect(() => {
-    dispatch(getAllAdmins());
-  }, [dispatch]);
-  console.log(AllAdmins);
+    getAllAdmins();
+  }, []);
+
+  const admin = [];
+  const sub_admin = [];
+
+  all?.map((item) => {
+    if (item?.role === "Admin") {
+      admin.push(item);
+    } else if (
+      item?.role === "Sub-Admin" ||
+      item?.role === "Sub-admin" ||
+      item?.role === "sub-admin"
+    ) {
+      sub_admin.push(item);
+    }
+  });
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -32,7 +57,7 @@ export const RoleMainSection = () => {
             onClick={() => setTab("all")}
             className={tab === "all" && styles.active}
           >
-            All({AllAdmins.length})
+            All({admin?.length})
           </div>
           <div
             onClick={() => setTab("admin")}
@@ -44,7 +69,7 @@ export const RoleMainSection = () => {
             onClick={() => setTab("subAdmin")}
             className={tab === "subAdmin" && styles.active}
           >
-            Sub-Admin({subAdmin.length})
+            Sub-Admin({sub_admin.length})
           </div>
         </div>
         <hr />
@@ -60,22 +85,11 @@ export const RoleMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? AllAdmins?.map((ele) => (
+                ? all?.map((ele) => (
                     <>
                       <tr>
                         <td>
                           <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331"
-                              }
-                              alt="x"
-                            />
                             {`${ele.firstName} ${ele.lastName}`}
                           </div>
                         </td>
@@ -90,17 +104,6 @@ export const RoleMainSection = () => {
                       <tr>
                         <td>
                           <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331"
-                              }
-                              alt="x"
-                            />
                             {`${ele.firstName} ${ele.lastName}`}
                           </div>
                         </td>
@@ -109,22 +112,11 @@ export const RoleMainSection = () => {
                       </tr>
                     </>
                   ))
-                : subAdmin?.map((ele) => (
+                : sub_admin?.map((ele) => (
                     <>
                       <tr>
                         <td>
                           <div>
-                            <img
-                              style={{
-                                width: "32px",
-                                height: "32px",
-                                borderRadius: "50%",
-                              }}
-                              src={
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rubio_Circle.png/899px-Rubio_Circle.png?20150804234331"
-                              }
-                              alt="x"
-                            />
                             {`${ele.firstName} ${ele.lastName}`}
                           </div>
                         </td>

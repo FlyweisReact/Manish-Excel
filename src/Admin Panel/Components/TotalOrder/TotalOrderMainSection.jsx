@@ -11,6 +11,8 @@ import { getAllOrders } from "../../../Redux/Auth/action";
 export const TotalOrderMainSection = () => {
   const [tab, setTab] = useState("all");
   const orders = useSelector((state) => state.AuthReducer.orders);
+  //console.log(orders);
+  const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllOrders());
@@ -33,6 +35,10 @@ export const TotalOrderMainSection = () => {
     },
   ];
 
+  let newOrder = [];
+  if(orders?.length<=3) newOrder = orders;
+  else newOrder = orders?.slice(0,3);
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -52,20 +58,20 @@ export const TotalOrderMainSection = () => {
             onClick={() => setTab("new")}
             className={tab === "new" && styles.active}
           >
-            New(50)
+            New
           </div>
-          <div
+          {/*<div
             onClick={() => setTab("ongoing")}
             className={tab === "ongoing" && styles.active}
           >
-            Ongoing(60)
-          </div>
+            Ongoing
+  </div>
           <div
             onClick={() => setTab("complated")}
             className={tab === "complated" && styles.active}
           >
-            Complated(60)
-          </div>
+            Complated
+  </div>*/}
         </div>
         <hr />
         <div className={styles.filterSection}>
@@ -108,29 +114,29 @@ export const TotalOrderMainSection = () => {
             </thead>
             <tbody>
               {tab === "all"
-                ? orderedData.map((ele) => (
+                ? orders.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.order_id}</td>
-                        <td>{ele.customer_id}</td>
-                        <td>{ele.package}</td>
-                        <td>{ele.date}</td>
-                        <td>{ele.location}</td>
+                        <td>{ele.catalogueId.orderId}</td>
+                        <td>{ele.catalogueId.name}</td>
+                        <td>{ele.totalPackages}</td>
+                        <td>{ele.createdAt}</td>
+                        <td>{ele.address}</td>
                         <td>
                           <button>Details</button>
                         </td>
                       </tr>
                     </>
                   ))
-                : tab === "ongoing"
-                ? orderedData.map((ele) => (
+                : tab === "new"
+                ? newOrder.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.order_id}</td>
-                        <td>{ele.customer_id}</td>
-                        <td>{ele.package}</td>
-                        <td>{ele.date}</td>
-                        <td>{ele.location}</td>
+                        <td>{ele.catalogueId.orderId}</td>
+                        <td>{ele.catalogueId.name}</td>
+                        <td>{ele.totalPackages}</td>
+                        <td>{ele.createdAt}</td>
+                        <td>{ele.address}</td>
                         <td>
                           <button>Details</button>
                         </td>

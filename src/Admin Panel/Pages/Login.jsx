@@ -98,6 +98,7 @@ export const Login = () => {
             </>
           ))}
           <option value="Sub-admin">Sub Admin</option>
+          <option value="sub-admin">Sub Admin</option>
         </select>
       </div>
       <button onClick={HandleLogin}>Log In</button>

@@ -117,7 +117,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Customer</p>
-              <span>545</span>
+              <span></span>
             </div>
             <div>
               <FcBusinessman />
@@ -166,7 +166,7 @@ export const MainSection = () => {
             onClick={() => setTab("complated")}
             className={tab === "complated" && styles.active}
           >
-            Complated(60)
+            Completed(60)
           </div>
         </div>
         <hr />

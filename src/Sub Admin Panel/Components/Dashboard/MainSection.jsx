@@ -9,10 +9,12 @@ import { FcBusinessman } from "react-icons/fc";
 import { FiFilter } from "react-icons/fi";
 import { MainInfo } from "./MainInfo";
 import { OrderStatusModal } from "./OrderStatusMadal";
+import { useDispatch, useSelector } from "react-redux";
 export const MainSection = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("order");
   const [OpenModal, setOpenModal] = useState(false);
+ 
   const orderedData = [
     {
       Order_Id: "125",
@@ -86,7 +88,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Customer</p>
-              <span>545</span>
+              <span></span>
             </div>
             <div>
               <FcBusinessman />
@@ -97,7 +99,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Products</p>
-              <span>55</span>
+              <span></span>
             </div>
             <div>
               <BsFillBoxFill />

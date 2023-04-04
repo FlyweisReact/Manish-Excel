@@ -57,19 +57,19 @@ export const RoleMainSection = () => {
             onClick={() => setTab("all")}
             className={tab === "all" && styles.active}
           >
-            All
+            All({all?.length})
           </div>
           <div
             onClick={() => setTab("admin")}
             className={tab === "admin" && styles.active}
           >
-            Admin(5)
+            Admin({admin?.length})
           </div>
           <div
             onClick={() => setTab("subAdmin")}
             className={tab === "subAdmin" && styles.active}
           >
-            Sub-Admin(20)
+            Sub-Admin({sub_admin?.length})
           </div>
         </div>
         <hr />

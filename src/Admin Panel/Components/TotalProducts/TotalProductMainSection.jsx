@@ -101,29 +101,36 @@ export const TotalProductMainSection = () => {
       });
       setSearchData(temp);
     }
+    console.log(searchData);
   };
 
-  const newProd = [
-    {
-      img: "https://th.bing.com/th/id/OIP.2cKAdWsLVWuqOBi25yBypAHaFL?pid=ImgDet&rs=1",
-      product_id: "12",
-      product_name: "dilyasis machine",
-      in_stock: "available",
-      quantity: 50,
-      price: 500,
-    },
-    {
-      img: "https://th.bing.com/th/id/OIP.2cKAdWsLVWuqOBi25yBypAHaFL?pid=ImgDet&rs=1",
-      product_id: "12",
-      product_name: "dilyasis machine",
-      in_stock: "Unavailable",
-      quantity: 50,
-      price: 500,
-    },
-  ];
+
   useEffect(() => {
     dispatch(getAllProducts());
+    
   }, [dispatch]);
+  let newProd = [];
+  if(products?.length<=5) newProd = products;
+  else{
+    newProd = products?.slice(-5);
+  }
+
+  const handleDelete = async (id)=>{
+    const token = localStorage.getItem("token");
+    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products/${id}`;
+    try{
+      const res = await axios.delete(urld,
+       {
+        headers:{Authorization:`Bearer ${token}`}
+       }  
+      )
+      dispatch(getAllProducts());
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
+  
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -183,6 +190,7 @@ export const TotalProductMainSection = () => {
                 <th>In Stock</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Delete</th>
               </tr>
             </thead>
 
@@ -251,39 +259,41 @@ export const TotalProductMainSection = () => {
                           <td>{ele.quantity}</td>
 
                           <td>&#x20b9;{ele.price}</td>
+                          <td><button onClick={()=>handleDelete(ele._id)}>Delete</button></td>
                         </tr>
                       </>
                     ))
                 : newProd?.map((ele) => (
                     <>
-                      <tr>
-                        <td>
-                          <img
-                            width={"80px"}
-                            height="80px"
-                            src={ele.img}
-                            alt={ele.img}
-                          />
-                        </td>
-                        <td>{ele.product_id}</td>
-                        <td>{ele.product_name}</td>
-                        <td>
-                          {ele.in_stock === "available" ? (
-                            <>
-                              <GoPrimitiveDot color="green" />
-                              {ele.in_stock}
-                            </>
-                          ) : (
-                            <>
-                              <GoPrimitiveDot color="red" />
-                              {ele.in_stock}
-                            </>
-                          )}
-                        </td>
-                        <td>{ele.quantity}</td>
+                        <tr key={ele._id}>
+                          <td>
+                            <img
+                              width={"80px"}
+                              height="80px"
+                              src={ele.image}
+                              alt={ele.image}
+                            />
+                          </td>
+                          <td>{ele.productId}</td>
+                          <td>{ele.productName}</td>
+                          <td>
+                            {ele.quantity > 0 ? (
+                              <>
+                                <GoPrimitiveDot color="green" />
+                                available
+                              </>
+                            ) : (
+                              <>
+                                <GoPrimitiveDot color="red" />
+                                unavailable
+                              </>
+                            )}
+                          </td>
+                          <td>{ele.quantity}</td>
 
-                        <td>&#x20b9;{ele.price}</td>
-                      </tr>
+                          <td>&#x20b9;{ele.price}</td>
+                          <td><button onClick={()=>handleDelete(ele._id)}>Delete</button></td>
+                        </tr>
                     </>
                   ))}
             </tbody>

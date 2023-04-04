@@ -27,7 +27,7 @@ export const TotalCustomerMainSection = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log(res?.data?.data?.data);
-      setCustomerInfoModal(res?.data?.data?.data);
+      setCustomer(res?.data?.data?.data);
     } catch (err) {
       console.log(err.message);
     }
@@ -39,46 +39,10 @@ export const TotalCustomerMainSection = () => {
     getAllCustomers(url);
   }, []);
 
-  const all = [
-    {
-      name: "ABC",
-      theraphy: "dhgshg",
-      address: "36, Pundalik Nagar,Noida",
-      state: "dilas",
-      district: "abbc",
-      town: "akja",
-      pincode: 125455,
-    },
-    {
-      name: "ABC",
-      theraphy: "dhgshg",
-      address: "36, Pundalik Nagar,Noida",
-      state: "dilas",
-      district: "abbc",
-      town: "akja",
-      pincode: 125455,
-    },
-  ];
-  const newCostomer = [
-    {
-      name: "ABC",
-      theraphy: "dhgshg",
-      address: "36, Pundalik Nagar,Noida",
-      state: "dilas",
-      district: "abbc",
-      town: "akja",
-      pincode: 125455,
-    },
-    {
-      name: "ABC",
-      theraphy: "dhgshg",
-      address: "36, Pundalik Nagar,Noida",
-      state: "dilas",
-      district: "abbc",
-      town: "akja",
-      pincode: 125455,
-    },
-  ];
+  let newCustomer = [];
+  if(customer?.length<=5) newCustomer = customer;
+  else newCustomer = customer?.slice(-5);
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -111,7 +75,7 @@ export const TotalCustomerMainSection = () => {
             onClick={() => setTab("new")}
             className={tab === "new" && styles.active}
           >
-            New(15)
+            New({newCustomer?.length})
           </div>
         </div>
         <hr />
@@ -119,32 +83,29 @@ export const TotalCustomerMainSection = () => {
           openModal={CustomerInfoModal}
           HandleModal={HandleModal}
         />
-        <div className={styles.tableDiv}>
-          <table>
+        <div className={styles.tableDiv}>          <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Theraphy</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Address</th>
                 <th>State</th>
                 <th>District</th>
-                <th>Town/Village</th>
                 <th>Pincode</th>
               </tr>
             </thead>
 
             <tbody>
               {tab === "all"
-                ? all?.map((ele) => (
+                ? customer?.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.name}</td>
-                        <td>{ele.theraphy}</td>
+                        <td>{ele.middleName}</td>
+                        <td>{ele.lastName}</td>
 
-                        <td>{ele.address}</td>
+                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
                         <td>{ele.state}</td>
                         <td>{ele.district}</td>
-                        <td>{ele.town}</td>
                         <td>{ele.pincode}</td>
                         <td>
                           {" "}
@@ -157,16 +118,15 @@ export const TotalCustomerMainSection = () => {
                       </tr>
                     </>
                   ))
-                : newCostomer?.map((ele) => (
+                : newCustomer?.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.name}</td>
-                        <td>{ele.theraphy}</td>
+                      <td>{ele.middleName}</td>
+                        <td>{ele.lastName}</td>
 
-                        <td>{ele.address}</td>
+                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
                         <td>{ele.state}</td>
                         <td>{ele.district}</td>
-                        <td>{ele.town}</td>
                         <td>{ele.pincode}</td>
                         <td>
                           {" "}
