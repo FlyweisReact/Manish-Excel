@@ -96,8 +96,8 @@ export const TotalProductMainSection = () => {
     if (value === "") {
       dispatch(getAllProducts());
     } else {
-      const temp = products.filter((item) => {
-        return item.productName.includes(value);
+      const temp = products?.filter((item) => {
+        return item?.productName?.includes(value);
       });
       setSearchData(temp);
     }

@@ -38,6 +38,24 @@ export const TotalOrderMainSection = () => {
   let newOrder = [];
   if(orders?.length<=3) newOrder = orders;
   else newOrder = orders?.slice(0,3);
+  const [searchData, setSearchData] = useState([]);
+
+  const HandleSearch = (e) => {
+    const { value } = e.target;
+    if (value === "") {
+      setSearchData(orders);
+    } else {
+      //console.log(value);
+      const temp = orders.filter((item) => {
+        console.log(item?.catalogueId.orderId);
+        return (
+          item?.catalogueId.orderId?.toString()?.includes(value.toString())
+        );
+      });
+      setSearchData(temp);
+    }
+    //console.log(searchData);
+  };
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -78,9 +96,10 @@ export const TotalOrderMainSection = () => {
           <div>
             <div>
               <AiOutlineSearch className={styles.filterSectionIconSearch} />
-              <input type="text" placeholder="Search by order Id,Customer Id" />
+              <input type="text" placeholder="Search by order Id,Customer Id"  
+                onChange={HandleSearch}
+              />
             </div>
-            <button>Search</button>
           </div>
           <div>
             <FiFilter className={styles.filterSectionIcon} />
@@ -118,7 +137,7 @@ export const TotalOrderMainSection = () => {
                     <>
                       <tr>
                         <td>{ele.catalogueId.orderId}</td>
-                        <td>{ele.catalogueId.name}</td>
+                        <td>{ele.userId}</td>
                         <td>{ele.totalPackages}</td>
                         <td>{ele.createdAt}</td>
                         <td>{ele.address}</td>

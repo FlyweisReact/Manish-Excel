@@ -13,6 +13,7 @@ export const TotalCustomerMainSection = () => {
   const [CustomerInfoModal, setCustomerInfoModal] = useState(false);
   const [addCustModal, setAddCustModal] = useState(false);
   const [customers, setCustomers] = useState([]);
+  const [searchData, setSearchData] = useState([]);
   let newCustomer = [];
   const HandleModal = () => {
     setCustomerInfoModal(!CustomerInfoModal);
@@ -37,13 +38,27 @@ export const TotalCustomerMainSection = () => {
     getAllUsers();
   }, []);
 
-  if(customers?.length<=5){
+  if (customers?.length <= 5) {
     newCustomer = customers;
-  }
-  else newCustomer = customers?.slice(-5);
+  } else newCustomer = customers?.slice(-5);
 
   const HandleAddCustoModal = () => {
     setAddCustModal(!addCustModal);
+  };
+
+  const HandleSearch = (e) => {
+    const { value } = e.target;
+    if (value === "") {
+      setSearchData(customers);
+    } else {
+      const temp = customers.filter((item) => {
+        return (
+          item?.middleName?.includes(value) || item?.lastName?.includes(value)
+        );
+      });
+      setSearchData(temp);
+    }
+    console.log(searchData);
   };
 
   return (
@@ -56,7 +71,11 @@ export const TotalCustomerMainSection = () => {
       <div className={styles.inputBoxMainDiv}>
         <div className={styles.inputBox}>
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
-          <input type="text" placeholder="Search by Name,Town,State etc" />
+          <input
+            type="text"
+            placeholder="Search by Name,Town,State etc"
+            onChange={HandleSearch}
+          />
         </div>
         <AddCustomerModal
           openModal={addCustModal}
@@ -101,7 +120,29 @@ export const TotalCustomerMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? customers?.map((ele) => (
+                ? searchData?.length>0?
+                  searchData?.map((ele)=>(
+                    <>
+                      <tr>
+                        <td>{ele.middleName}</td>
+                        <td>{ele.lastName}</td>
+
+                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
+                        <td>{ele.state}</td>
+                        <td>{ele.district}</td>
+                        <td>{ele.pincode}</td>
+                        <td>
+                          {" "}
+                          <BsEyeFill
+                            onClick={HandleModal}
+                            cursor={"pointer"}
+                            color="#C5161D"
+                          />
+                        </td>
+                      </tr>
+                    </>
+                  ))
+                : customers?.map((ele) => (
                     <>
                       <tr>
                         <td>{ele.middleName}</td>
@@ -125,7 +166,7 @@ export const TotalCustomerMainSection = () => {
                 : newCustomer?.map((ele) => (
                     <>
                       <tr>
-                      <td>{ele.middleName}</td>
+                        <td>{ele.middleName}</td>
                         <td>{ele.lastName}</td>
 
                         <td>{ele.firstLineAddress + ele.secondLineAddress}</td>

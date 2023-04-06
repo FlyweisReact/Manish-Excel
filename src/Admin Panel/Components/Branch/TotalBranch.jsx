@@ -66,6 +66,7 @@ export const TotalBranch = () => {
   const branches = useSelector((state) => state.AuthReducer.branches);
   const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
+  const [searchData, setSearchData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetBranches());
@@ -74,6 +75,22 @@ export const TotalBranch = () => {
 
   const HandleBranchLoginModal = () => {
     setShow(!show);
+  };
+  const HandleSearch = (e) => {
+    const { value } = e.target;
+    //console.log(branches);
+    if (value === "") {
+      setSearchData(branches);
+      console.log(searchData);
+    } else {
+      const temp = branches?.filter((item) => {
+        return (
+          item?.branch?.includes(value) 
+        );
+      });
+      setSearchData(temp);
+    }
+    console.log(searchData);
   };
   return (
     <div className={stylesfromDash.mainSection}>
@@ -86,7 +103,7 @@ export const TotalBranch = () => {
       <div className={styles.inputBoxMainDiv}>
         <div className={styles.inputBox}>
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
-          <input type="text" placeholder="Search by branch name" />
+          <input type="text" placeholder="Search by branch name" onChange={HandleSearch}/>
         </div>
         <button onClick={()=>setModalShow(true)}>
           Add Branch</button>
@@ -97,7 +114,17 @@ export const TotalBranch = () => {
           HandleBranchLoginModal={HandleBranchLoginModal}
           branch={branches}
         />
-        {branches?.map((ele) => (
+        {searchData?.length>0 ?
+            searchData?.map((ele)=>{
+              <>
+                <BranchList
+                  key={ele.id}
+                  data={ele}
+                  HandleBranchLoginModal={HandleBranchLoginModal}
+                />
+            </>            
+            })
+        :branches?.map((ele) => (
           <>
             <BranchList
               key={ele.id}
