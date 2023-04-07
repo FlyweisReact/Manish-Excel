@@ -41,6 +41,12 @@ export const RoleMainSection = () => {
     }
   });
 
+  const [query, setQuery] = useState("");
+  const searchData = !query ? all :
+                  all?.filter((item)=>{
+                    return item?.lastName?.toLowerCase()?.includes(query?.toLowerCase()) 
+                  })
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -48,7 +54,9 @@ export const RoleMainSection = () => {
         <div className={styles.SearchBox}>
           <div>
             <AiOutlineSearch className={styles.SearchIcon} />
-            <input type="text" placeholder="Search by order Id,Customer Id" />
+            <input type="text" placeholder="Search by order Id,Customer Id" 
+              onChange={((e)=>setQuery(e.target.value))}
+            />
           </div>
           <button>Search</button>
         </div>
@@ -85,7 +93,22 @@ export const RoleMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? all?.map((ele, i) => (
+                ? 
+                searchData?.length > 0?
+                  searchData?.map((ele, i)=>(
+                    <>
+                      <tr>
+                        <td>
+                          <div>{ele.lastName}</div>
+                        </td>
+                        <td>{i + 1}</td>
+
+                        <td>{ele.role}</td>
+                      </tr>
+                    </>                  
+                  ))
+                
+                :all?.map((ele, i) => (
                     <>
                       <tr>
                         <td>

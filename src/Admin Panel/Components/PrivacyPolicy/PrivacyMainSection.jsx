@@ -1,68 +1,110 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import { MainInfo } from "../Dashboard/MainInfo";
 import styles from "../../Styles/PrivacyPolicy.module.css";
+import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 export const PrivacyMainSection = () => {
+
+  const [privacyPol, setPrivacyPol] = useState("");
+  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/privacy";
+
+  const getPrivacy = async ()=>{
+    const token = localStorage.getItem("token");
+    try{
+      const res = await axios.get(url,
+        {
+          headers:{Authorization:`Bearer ${token}`}
+        }
+      )
+      setPrivacyPol(res?.data?.data?.content);
+    }catch(err){
+      console.log(err.message);
+    }
+  };
+
+  useEffect(()=>{
+    getPrivacy();
+  },[])
+
+  function MyVerticallyCenteredModal(props) {
+    const ud = localStorage.getItem("token");
+    const [content, setContent] = useState("");
+    const image = "https://i.mydramalist.com/R6W7x_5f.jpg";
+    //console.log(image, productId, productName, stock, quantity, price);
+    //const dispatch = useDispatch();
+    const urla = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/privacy";
+    const handleClick = async (e)=>{
+      e.preventDefault();
+      try{
+        //console.log(image, productId, productName, stock, quantity, price);
+        const res = await axios.post(urla,
+          {content} ,
+          {
+           headers :{
+            Authorization:`Bearer ${ud}`,
+           }
+          } 
+        )
+       // console.log(res?.data);
+      // dispatch(getTerms());
+        getPrivacy();
+      }catch(err){
+        console.log(err.message);
+      }
+    }
+   // console.log(image, productId, productName, stock, quantity, price);
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <form onSubmit={handleClick}>
+          <label >Privacy Policy</label>
+          <input type="text" id="name" name="name" required onChange={(e)=>setContent(e.target.value)}/>
+          <input type="submit" value="Submit" />
+        </form>
+  
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+  
+  const [modalShow, setModalShow] = React.useState(false);  
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
       <div className={styles.main}>
         <h1 className={stylesfromDash.Title}>Privacy Policy</h1>
-        <button>Add</button>
+        <button onClick={()=>setModalShow(true)}>Add</button>
       </div>
       <hr style={{ width: "90%", marginTop: "-10px" }} />
       <div className={styles.TextSection}>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          magnam, pariatur est nihil obcaecati explicabo, voluptatum ratione
-          corporis maxime eius a sed veritatis quis hic quam mollitia accusamus
-          assumenda delectus! Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. A, deleniti! Eligendi, obcaecati natus itaque illo soluta,
-          debitis inventore rerum cumque veritatis nemo minima amet corporis
-          impedit? Inventore libero esse enim. Placeat accusantium, recusandae
-          amet fuga nam beatae nostrum perspiciatis eveniet vel impedit! Officia
-          quos, rem similique doloremque, error sequi, dolore distinctio hic
-          temporibus iusto architecto totam minus eveniet animi. Minus! Labore
-          suscipit quaerat non minus, fugit exercitationem doloremque incidunt,
-          omnis illum qui ducimus rerum asperiores aliquid! Ducimus dolore,
-          illo, doloribus saepe accusamus fuga iure iste voluptatibus doloremque
-          laborum, quidem repellat!
+          {privacyPol}
         </p>
-        <h1>Disclaimer</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          magnam, pariatur est nihil obcaecati explicabo, voluptatum ratione
-          corporis maxime eius a sed veritatis quis hic quam mollitia accusamus
-          assumenda delectus! Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. A, deleniti! Eligendi, obcaecati natus itaque illo soluta,
-          debitis inventore rerum cumque veritatis nemo minima amet corporis
-          impedit? Inventore libero esse enim. Placeat accusantium, recusandae
-          amet fuga nam beatae nostrum perspiciatis eveniet vel impedit! Officia
-          quos, rem similique doloremque, error sequi, dolore distinctio hic
-          temporibus iusto architecto totam minus eveniet animi. Minus! Labore
-          suscipit quaerat non minus, fugit exercitationem doloremque incidunt,
-          omnis illum qui ducimus rerum asperiores aliquid! Ducimus dolore,
-          illo, doloribus saepe accusamus fuga iure iste voluptatibus doloremque
-          laborum, quidem repellat!
-        </p>
-        <h1>Main Section</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          magnam, pariatur est nihil obcaecati explicabo, voluptatum ratione
-          corporis maxime eius a sed veritatis quis hic quam mollitia accusamus
-          assumenda delectus! Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. A, deleniti! Eligendi, obcaecati natus itaque illo soluta,
-          debitis inventore rerum cumque veritatis nemo minima amet corporis
-          impedit? Inventore libero esse enim. Placeat accusantium, recusandae
-          amet fuga nam beatae nostrum perspiciatis eveniet vel impedit! Officia
-          quos, rem similique doloremque, error sequi, dolore distinctio hic
-          temporibus iusto architecto totam minus eveniet animi. Minus! Labore
-          suscipit quaerat non minus, fugit exercitationem doloremque incidunt,
-          omnis illum qui ducimus rerum asperiores aliquid! Ducimus dolore,
-          illo, doloribus saepe accusamus fuga iure iste voluptatibus doloremque
-          laborum, quidem repellat!
-        </p>
+
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

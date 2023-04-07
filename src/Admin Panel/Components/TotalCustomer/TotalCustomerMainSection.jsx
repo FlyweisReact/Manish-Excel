@@ -7,13 +7,18 @@ import { BsEyeFill } from "react-icons/bs";
 import { SingleCostomerInfoModal } from "./SingleCostomerInfoModal";
 import { AddCustomerModal } from "./AddCustomerModal";
 import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export const TotalCustomerMainSection = () => {
   const [tab, setTab] = useState("all");
   const [CustomerInfoModal, setCustomerInfoModal] = useState(false);
   const [addCustModal, setAddCustModal] = useState(false);
   const [customers, setCustomers] = useState([]);
-  const [searchData, setSearchData] = useState([]);
+  //const [searchData, setSearchData] = useState([]);
+  const [query, setQuery] = useState();
   let newCustomer = [];
   const HandleModal = () => {
     setCustomerInfoModal(!CustomerInfoModal);
@@ -46,7 +51,15 @@ export const TotalCustomerMainSection = () => {
     setAddCustModal(!addCustModal);
   };
 
-  const HandleSearch = (e) => {
+  const searchData = !query ?  customers :
+          customers.filter((item)=>{
+            return (
+              item?.middleName?.toLowerCase()?.includes(query?.toLowerCase()) ||
+               item?.lastName?.toLowerCase()?.includes(query.toLowerCase())
+            )
+          })
+
+ /* const HandleSearch = (e) => {
     const { value } = e.target;
     if (value === "") {
       setSearchData(customers);
@@ -59,7 +72,123 @@ export const TotalCustomerMainSection = () => {
       setSearchData(temp);
     }
     console.log(searchData);
-  };
+  };*/
+
+  const [modalShow, setModalShow] = React.useState(false);
+
+  function MyVerticallyCenteredModal(props) {
+    const ud = localStorage.getItem("token");
+    //const [branch, setBranch] = useState("");
+    const [firstName, setfname] = useState("");
+    const [lastName, setlname] = useState("");
+    const [middleName, setmname] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [customerId, setcid] = useState("");
+    const [dateOfBirth, setdob] = useState("");
+    const [gender, setgender] = useState("");
+    const [bloodGroup, setBg] = useState("");
+    const [doctorName, setdname] = useState("");
+    const [hospitalName, sethname] = useState("");
+    const [maritalStatus, setMs] = useState("");
+    const [father_spouseName, setFs] = useState("");
+    const [relationship, setrel] = useState("");
+    const [firstLineAddress, setfla] = useState("");
+    const [secondLineAddress, setsla] = useState("");
+    const [country, setCountry] = useState("");
+    const [state, setState] = useState("");
+    const [district, setDistrict] = useState("");
+    const [pincode, setPincode] = useState("");
+    //const dispatch = useDispatch();
+    const urla = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/add-customer";
+    const handleClick = async (e)=>{
+      e.preventDefault();
+      try{
+  
+        const res = await axios.post(urla,
+          {firstName,lastName,middleName, phone, email,customerId, dateOfBirth, gender,
+            bloodGroup, doctorName, hospitalName, maritalStatus, father_spouseName,
+            relationship, firstLineAddress, secondLineAddress, country, state,
+            district, pincode   
+          } ,
+          {
+           headers :{
+            Authorization:`Bearer ${ud}`,
+           }
+          } 
+        )
+        console.log(res?.data);
+        getAllUsers();
+      //  dispatch(GetBranches());
+      }catch(err){
+        console.log(err.message);
+      }
+    }
+    //console.log(branch);
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleClick}>
+            <label>First Name</label>
+            <input type="text" onChange={(e)=>setfname(e.target.value)} required/>
+            <label>Last Name</label>
+            <input type="text" onChange={(e)=>setlname(e.target.value)} required/>
+            <label>Middle Name</label>
+            <input type="text" onChange={(e)=>setmname(e.target.value)} required/>
+            <label>Phone</label>
+            <input type="text" onChange={(e)=>setPhone(e.target.value)} required/>
+            <label>Email</label>
+            <input type="text" onChange={(e)=>setEmail(e.target.value)} required/>
+            <label>Customer Id</label>
+            <input type="text" onChange={(e)=>setcid(e.target.value)} required/>
+            <label>DOB</label>
+            <input type="text" onChange={(e)=>setdob(e.target.value)} required/>
+            <label>Gender</label>
+            <input type="text" onChange={(e)=>setgender(e.target.value)} required/>
+            <label>Blood Group</label>
+            <input type="text" onChange={(e)=>setBg(e.target.value)} required/>
+            <label>Doctor Name</label>
+            <input type="text" onChange={(e)=>setdname(e.target.value)} required/>
+            <label>Hospital Name</label>
+            <input type="text" onChange={(e)=>sethname(e.target.value)} required/>
+            <label>Marrital Status</label>
+            <input type="text" onChange={(e)=>setMs(e.target.value)} required/>
+            <label>Father Spouse Name</label>
+            <input type="text" onChange={(e)=>setFs(e.target.value)} required/>
+            <label>Relationship</label>
+            <input type="text" onChange={(e)=>setrel(e.target.value)} required/>
+            <label>Address First Line</label>
+            <input type="text" onChange={(e)=>setfla(e.target.value)} required/>
+            <label>Address Second Line</label>
+            <input type="text" onChange={(e)=>setsla(e.target.value)} required/>
+            <label>Country</label>
+            <input type="text" onChange={(e)=>setCountry(e.target.value)} required/>
+            <label>State</label>
+            <input type="text" onChange={(e)=>setState(e.target.value)} required/>
+            <label>District</label>
+            <input type="text" onChange={(e)=>setDistrict(e.target.value)} required/>
+            <label>Pincode</label>
+            <input type="text" onChange={(e)=>setPincode(e.target.value)} required/>
+            <button type="submit"  >Add Branch</button>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+  
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -74,14 +203,14 @@ export const TotalCustomerMainSection = () => {
           <input
             type="text"
             placeholder="Search by Name,Town,State etc"
-            onChange={HandleSearch}
+            onChange={(e)=>setQuery(e.target.value)}
           />
         </div>
         <AddCustomerModal
           openModal={addCustModal}
           HandleModal={HandleAddCustoModal}
         />
-        <button onClick={HandleAddCustoModal}>Add Customer</button>
+        <button onClick={()=>setModalShow(true)}>Add Customer</button>
       </div>
 
       <div className={styles.CustomerMain}>
@@ -120,7 +249,8 @@ export const TotalCustomerMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? searchData?.length>0?
+                ? searchData?.length>0 
+                  ?
                   searchData?.map((ele)=>(
                     <>
                       <tr>
@@ -188,6 +318,10 @@ export const TotalCustomerMainSection = () => {
           </table>
         </div>
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

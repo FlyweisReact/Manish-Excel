@@ -66,7 +66,7 @@ export const TotalBranch = () => {
   const branches = useSelector((state) => state.AuthReducer.branches);
   const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
-  const [searchData, setSearchData] = useState([]);
+  //const [searchData, setSearchData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(GetBranches());
@@ -76,7 +76,20 @@ export const TotalBranch = () => {
   const HandleBranchLoginModal = () => {
     setShow(!show);
   };
-  const HandleSearch = (e) => {
+  //let searchData = []
+  const [query, setQuery] = useState("");
+  const searchData = !query ?  branches :
+          branches?.filter((item)=>{
+            return (
+              item?.branch?.includes(query)
+            )
+          });
+        //  searchData = tmp;
+
+  console.log(searchData);
+        
+  //console.log(searchData);
+  /*const HandleSearch = (e) => {
     const { value } = e.target;
     //console.log(branches);
     if (value === "") {
@@ -91,7 +104,7 @@ export const TotalBranch = () => {
       setSearchData(temp);
     }
     console.log(searchData);
-  };
+  };*/
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -103,7 +116,8 @@ export const TotalBranch = () => {
       <div className={styles.inputBoxMainDiv}>
         <div className={styles.inputBox}>
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
-          <input type="text" placeholder="Search by branch name" onChange={HandleSearch}/>
+          <input type="text" placeholder="Search by branch name"
+           onChange={(e)=>setQuery(e.target.value)}/>
         </div>
         <button onClick={()=>setModalShow(true)}>
           Add Branch</button>
@@ -114,9 +128,11 @@ export const TotalBranch = () => {
           HandleBranchLoginModal={HandleBranchLoginModal}
           branch={branches}
         />
-        {searchData?.length>0 ?
+        {searchData?.length>0 
+          ?
             searchData?.map((ele)=>{
               <>
+              {console.log(ele)}
                 <BranchList
                   key={ele.id}
                   data={ele}

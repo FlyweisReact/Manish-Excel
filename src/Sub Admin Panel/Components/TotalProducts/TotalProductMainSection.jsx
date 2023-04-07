@@ -151,6 +151,19 @@ export const TotalProductMainSection = () => {
   let newProd = [];
   if (product?.length <= 5) newProd = product;
   else newProd = product?.slice(-5);
+  const [searchData, setSearchData] = useState([]);
+  const HandleSearch = (e) => {
+    const { value } = e.target;
+    if (value === "") {
+      setSearchData(product);
+    } else {
+      const temp = product?.filter((item) => {
+        return item?.productName?.includes(value);
+      });
+      setSearchData(temp);
+    }
+    console.log(searchData);
+  };
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -176,7 +189,7 @@ export const TotalProductMainSection = () => {
           >
             New({newProd?.length})
           </div>
-          <div
+          {/*<div
             onClick={() => setTab("ongoing")}
             className={tab === "ongoing" && styles.active}
           >
@@ -187,7 +200,7 @@ export const TotalProductMainSection = () => {
             className={tab === "complated" && styles.active}
           >
             Complated(15)
-          </div>
+          </div>*/}
         </div>
         <hr />
 
@@ -196,6 +209,7 @@ export const TotalProductMainSection = () => {
           <input
             type="text"
             placeholder="Search by Product Id,Product Name etc"
+            onChange={HandleSearch}
           />
         </div>
         <div className={styles.tableDiv}>
@@ -214,7 +228,46 @@ export const TotalProductMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? product?.map((ele) => (
+                ? searchData?.length>0 ?
+                  searchData?.map((ele)=>{
+                    <>
+                    <tr>
+                      <td>
+                        <img
+                          width={"80px"}
+                          height="80px"
+                          src={ele.image}
+                          alt={ele.image}
+                        />
+                      </td>
+                      <td>{ele.productId}</td>
+                      <td>{ele.productName}</td>
+                      <td>
+                        {ele.in_stock === "available" ? (
+                          <>
+                            <GoPrimitiveDot color="green" />
+                            {ele.in_stock}
+                          </>
+                        ) : (
+                          <>
+                            <GoPrimitiveDot color="red" />
+                            {ele.in_stock}
+                          </>
+                        )}
+                      </td>
+                      <td>{ele.quantity}</td>
+
+                      <td>&#x20b9;{ele.price}</td>
+                      <td>
+                        <button onClick={() => handleDelete(ele._id)}>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </>                   
+                  })
+                :
+                product?.map((ele) => (
                     <>
                       <tr>
                         <td>

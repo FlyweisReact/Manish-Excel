@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../Styles/DashBoard.module.css";
 
 import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
@@ -10,71 +10,51 @@ import { FiFilter } from "react-icons/fi";
 import { MainInfo } from "./MainInfo";
 import { OrderStatusModal } from "./OrderStatusMadal";
 import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
 export const MainSection = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("order");
   const [OpenModal, setOpenModal] = useState(false);
- 
-  const orderedData = [
-    {
-      Order_Id: "125",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: false,
-    },
-    {
-      Order_Id: "126",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: true,
-    },
-  ];
-  const onGoingData = [
-    {
-      Order_Id: "125",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: false,
-    },
-    {
-      Order_Id: "126",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: true,
-    },
-  ];
-  const CompletedData = [
-    {
-      Order_Id: "125",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: true,
-    },
-    {
-      Order_Id: "126",
-      Customer_Id: "24545",
-      Package: "dummy",
-      Delivery_Date: "54545454",
-      Status: true,
-      Total_Amount: "5000",
-      Payment: true,
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+  const getAllOrders = async ()=>{
+    const token = localStorage.getItem("token");
+    try{
+      const res = await axios.get(url,
+        {
+          headers:{Authorization:`Bearer ${token}`}
+        }
+      )
+      setOrders(res?.data?.data);
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
+  useEffect(()=>{
+    getAllOrders();
+  },[])
+
+  const ongoingOrders = orders?.filter((item)=>{
+    return item?.orderStatus === "ongoing";
+  })
+
+  //console.log(orders);
+
+  const completedOrders = orders?.filter((item)=>{
+    return item?.orderStatus === "delivered";
+  })
+
+  const [query, setQuery] = useState("");
+
+
+  const searchData = !query ? orders :
+                  orders?.filter((item)=>{
+                    return (
+                      item?.catalogueId?.orderId?.includes(query)
+                    )
+                  })
+  console.log(searchData);
 
   const HandleModal = () => {
     setOpenModal(!OpenModal);
@@ -120,13 +100,13 @@ export const MainSection = () => {
             onClick={() => setTab("ongoing")}
             className={tab === "ongoing" && styles.active}
           >
-            Ongoing(50)
+            Ongoing({ongoingOrders.length})
           </div>
           <div
             onClick={() => setTab("complated")}
             className={tab === "complated" && styles.active}
           >
-            Complated(60)
+            Complated({completedOrders?.length})
           </div>
         </div>
         <hr />
@@ -134,7 +114,9 @@ export const MainSection = () => {
           <div>
             <div>
               <AiOutlineSearch className={styles.filterSectionIconSearch} />
-              <input type="text" placeholder="Search by order Id,Customer Id" />
+              <input type="text" placeholder="Search by order Id,Customer Id" 
+                onChange={(e)=>setQuery(e.target.value)}
+              />
             </div>
             <button>Search</button>
           </div>
@@ -154,7 +136,7 @@ export const MainSection = () => {
         <table>
           <thead>
             <tr>
-              <th>
+            <th>
                 Order Id <AiFillCaretDown />
               </th>
               <th>
@@ -164,89 +146,76 @@ export const MainSection = () => {
                 Package <AiFillCaretDown />
               </th>
               <th>
-                Delivery Date <AiFillCaretDown />
+                Order Date <AiFillCaretDown />
               </th>
-              <th>
+              {/*<th>
                 Status <AiFillCaretDown />
-              </th>
+  </th>*/}
               <th>Total Amount</th>
-              <th>Payment</th>
+              <th>Location</th>
             </tr>
           </thead>
           <tbody>
             {tab === "order"
-              ? orderedData.map((ele) => (
+              ? searchData.length >0 
+              ?
+                searchData?.map((ele)=>(
                   <>
-                    <tr>
-                      <td>{ele.Order_Id}</td>
-                      <td>{ele.Customer_Id}</td>
-                      <td>{ele.Package}</td>
-                      <td>{ele.Delivery_Date}</td>
-                      <td>
-                        <BsEyeFill
-                          onClick={HandleModal}
-                          cursor={"pointer"}
-                          color="#C5161D"
-                        />
-                      </td>
-                      <td>{ele.Total_Amount}</td>
-                      <td>
-                        {ele.Payment ? (
-                          <>
-                            <p className={styles.paid}>Paid</p>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => navigate("/new-invoice")}
-                              className={styles.paindingInvoiceBtn}
-                            >
-                              P.Invoice
-                            </button>
-                          </>
-                        )}
-                      </td>
-                    </tr>
-                  </>
+                  <tr>
+                    <td>{ele?.catalogueId?.orderId}</td>
+                    <td>{ele.userId}</td>
+                    <td>{ele.totalPackages}</td>
+                    <td>{ele.createdAt}</td>
+                    <td>
+                      {ele?.catalogueId?.totalAmount}
+                    </td>
+                    <td>{ele.address}</td>
+                  </tr>
+                </>                 
+                ))  
+              
+              :orders.map((ele) => (
+                <>
+                <tr>
+                  <td>{ele?.catalogueId?.orderId}</td>
+                  <td>{ele.userId}</td>
+                  <td>{ele.totalPackages}</td>
+                  <td>{ele.createdAt}</td>
+                  <td>
+                    {ele?.catalogueId?.totalAmount}
+                  </td>
+                  <td>{ele.address}</td>
+                </tr>
+              </>
                 ))
               : tab === "ongoing"
-              ? onGoingData.map((ele) => (
-                  <>
-                    <tr>
-                      <td>{ele.Order_Id}</td>
-                      <td>{ele.Customer_Id}</td>
-                      <td>{ele.Package}</td>
-                      <td>{ele.Delivery_Date}</td>
-                      <td>
-                        <BsEyeFill
-                          onClick={HandleModal}
-                          cursor={"pointer"}
-                          color="#C5161D"
-                        />
-                      </td>
-                      <td>{ele.Total_Amount}</td>
-                      <td>{ele.Payment}</td>
-                    </tr>
-                  </>
+              ? ongoingOrders.map((ele) => (
+                <>
+                <tr>
+                  <td>{ele?.catalogueId?.orderId}</td>
+                  <td>{ele.userId}</td>
+                  <td>{ele.totalPackages}</td>
+                  <td>{ele.createdAt}</td>
+                  <td>
+                    {ele?.catalogueId?.totalAmount}
+                  </td>
+                  <td>{ele.address}</td>
+                </tr>
+              </>
                 ))
-              : CompletedData.map((ele) => (
-                  <>
-                    <tr>
-                      <td>{ele.Order_Id}</td>
-                      <td>{ele.Customer_Id}</td>
-                      <td>{ele.Package}</td>
-                      <td>{ele.Delivery_Date}</td>
-                      <td>
-                        <BsEyeFill
-                          onClick={HandleModal}
-                          cursor={"pointer"}
-                          color="#C5161D"
-                        />
-                      </td>
-                      <td>{ele.Total_Amount}</td>
-                      <td>{ele.Payment}</td>
-                    </tr>
-                  </>
+              : completedOrders.map((ele) => (
+                <>
+                <tr>
+                  <td>{ele?.catalogueId?.orderId}</td>
+                  <td>{ele.userId}</td>
+                  <td>{ele.totalPackages}</td>
+                  <td>{ele.createdAt}</td>
+                  <td>
+                    {ele?.catalogueId?.totalAmount}
+                  </td>
+                  <td>{ele.address}</td>
+                </tr>
+              </>
                 ))}
           </tbody>
         </table>

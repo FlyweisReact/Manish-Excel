@@ -71,11 +71,11 @@ export const SiderBar = () => {
           </Link>
           <FiChevronDown className={styles.DownIcon} />
         </div>
-        <div className={styles.dropdown}>
+        {/*<div className={styles.dropdown}>
           <MdHistory />
           <p>History</p>
           <FiChevronDown className={styles.DownIcon} />
-        </div>
+        </div>*/}
         <Link to={"/subadmin-hubandcities"}>
           <div>
             <img width={"20px"} src={CityIcon} alt={CityIcon} />

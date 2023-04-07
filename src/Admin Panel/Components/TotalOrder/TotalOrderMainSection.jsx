@@ -38,9 +38,17 @@ export const TotalOrderMainSection = () => {
   let newOrder = [];
   if(orders?.length<=3) newOrder = orders;
   else newOrder = orders?.slice(0,3);
-  const [searchData, setSearchData] = useState([]);
+ // const [searchData, setSearchData] = useState([]);
+  const [query, setQuery] = useState();
 
-  const HandleSearch = (e) => {
+  const searchData = !query ? orders :
+                  orders?.filter((item)=>{
+                    return (
+                      item?.catalogueId.orderId?.includes(query)
+                    )
+                  })
+
+  /*const HandleSearch = (e) => {
     const { value } = e.target;
     if (value === "") {
       setSearchData(orders);
@@ -55,7 +63,7 @@ export const TotalOrderMainSection = () => {
       setSearchData(temp);
     }
     //console.log(searchData);
-  };
+  };*/
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -97,7 +105,7 @@ export const TotalOrderMainSection = () => {
             <div>
               <AiOutlineSearch className={styles.filterSectionIconSearch} />
               <input type="text" placeholder="Search by order Id,Customer Id"  
-                onChange={HandleSearch}
+                onChange={(e)=>setQuery(e.target.value)}
               />
             </div>
           </div>
@@ -133,7 +141,26 @@ export const TotalOrderMainSection = () => {
             </thead>
             <tbody>
               {tab === "all"
-                ? orders.map((ele) => (
+                ? searchData?.length >0 ? 
+                
+                searchData?.map((ele)=>(
+                  <>
+                  <tr>
+                    <td>{ele.catalogueId.orderId}</td>
+                    <td>{ele.userId}</td>
+                    <td>{ele.totalPackages}</td>
+                    <td>{ele.createdAt}</td>
+                    <td>{ele.address}</td>
+                    <td>
+                      <button>Details</button>
+                    </td>
+                  </tr>
+                </>                
+                ))
+                
+                
+                :
+                orders.map((ele) => (
                     <>
                       <tr>
                         <td>{ele.catalogueId.orderId}</td>

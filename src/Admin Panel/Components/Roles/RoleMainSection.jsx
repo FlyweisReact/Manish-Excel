@@ -41,6 +41,15 @@ export const RoleMainSection = () => {
       sub_admin.push(item);
     }
   });
+
+  const [query, setQuery] = useState("");
+
+  const searchData = !query ? all : 
+                  all.filter((item)=>{
+                    return item?.firstName?.toLowerCase()?.includes(query?.toLowerCase()) || 
+                          item?.lastName?.toLowerCase()?.includes(query?.toLowerCase())
+                  })
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -48,7 +57,9 @@ export const RoleMainSection = () => {
         <div className={styles.SearchBox}>
           <div>
             <AiOutlineSearch className={styles.SearchIcon} />
-            <input type="text" placeholder="Search by order Id,Customer Id" />
+            <input type="text" placeholder="Search by order Id,Customer Id"
+              onChange = {(e)=>setQuery(e.target.value)}
+            />
           </div>
           <button>Search</button>
         </div>
@@ -85,7 +96,24 @@ export const RoleMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? all?.map((ele) => (
+                ? searchData?.length>0
+                ?
+                  searchData?.map((ele)=>(
+                    <>
+                      <tr>
+                        <td>
+                          <div>
+                            {`${ele.firstName} ${ele.lastName}`}
+                          </div>
+                        </td>
+                        <td>{ele._id}</td>
+                        <td>{ele.role}</td>
+                      </tr>
+                    </>
+                  ))
+
+                :
+                all?.map((ele) => (
                     <>
                       <tr>
                         <td>

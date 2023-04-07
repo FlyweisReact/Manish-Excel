@@ -67,7 +67,7 @@ export const SiderBar = () => {
             {/* </Link> */}
           </div>
         </div>
-        <div className={styles.dropdown}>
+        {/*<div className={styles.dropdown}>
           <Link to="/notification">
             <div>
               <MdOutlineNotificationAdd />
@@ -75,12 +75,12 @@ export const SiderBar = () => {
             </div>
           </Link>
           <FiChevronDown className={styles.DownIcon} />
-        </div>
-        <div className={styles.dropdown}>
+        </div>*/}
+        {/*<div className={styles.dropdown}>
           <MdHistory />
           <p>History</p>
           <FiChevronDown className={styles.DownIcon} />
-        </div>
+        </div>*/}
         <Link to={"/hubandcities"}>
           <div>
             <img width={"20px"} src={CityIcon} alt={CityIcon} />
@@ -122,12 +122,12 @@ export const SiderBar = () => {
             <p>Report</p>
           </div>
         </Link>
-        <Link to={"/help"}>
+        {/*<Link to={"/help"}>
           <div>
             <TbHelpOctagon />
             <p>Help</p>
           </div>
-        </Link>
+        </Link>*/}
         <div onClick={HandleLogout}>
           <HiOutlineLogout />
           <p>Logout</p>

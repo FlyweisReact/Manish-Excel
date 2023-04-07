@@ -157,7 +157,7 @@ export const TotalProductMainSection = () => {
           >
             New(15)
           </div>
-          <div
+         {/* <div
             onClick={() => setTab("ongoing")}
             className={tab === "ongoing" && styles.active}
           >
@@ -168,7 +168,7 @@ export const TotalProductMainSection = () => {
             className={tab === "complated" && styles.active}
           >
             Complated(15)
-          </div>
+          </div> */}
         </div>
         <hr />
 
