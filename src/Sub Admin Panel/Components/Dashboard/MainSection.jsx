@@ -54,6 +54,22 @@ export const MainSection = () => {
                       item?.catalogueId?.orderId?.includes(query)
                     )
                   })
+
+  const ongoingsearchData = !query ? ongoingOrders :
+                  ongoingOrders?.filter((item)=>{
+                    return (
+                      item?.catalogueId?.orderId?.includes(query)
+                    )
+                  })
+  const completedsearchData = !query ? completedOrders :
+                  completedOrders?.filter((item)=>{
+                    return (
+                      item?.catalogueId?.orderId?.includes(query)
+                    )
+                  })
+
+
+                
   console.log(searchData);
 
   const HandleModal = () => {
@@ -157,7 +173,6 @@ export const MainSection = () => {
           </thead>
           <tbody>
             {tab === "order"
-              ? searchData.length >0 
               ?
                 searchData?.map((ele)=>(
                   <>
@@ -173,23 +188,12 @@ export const MainSection = () => {
                   </tr>
                 </>                 
                 ))  
-              
-              :orders.map((ele) => (
-                <>
-                <tr>
-                  <td>{ele?.catalogueId?.orderId}</td>
-                  <td>{ele.userId}</td>
-                  <td>{ele.totalPackages}</td>
-                  <td>{ele.createdAt}</td>
-                  <td>
-                    {ele?.catalogueId?.totalAmount}
-                  </td>
-                  <td>{ele.address}</td>
-                </tr>
-              </>
-                ))
+
+            
               : tab === "ongoing"
-              ? ongoingOrders.map((ele) => (
+              ? 
+            
+              ongoingsearchData?.map((ele)=>(
                 <>
                 <tr>
                   <td>{ele?.catalogueId?.orderId}</td>
@@ -201,9 +205,14 @@ export const MainSection = () => {
                   </td>
                   <td>{ele.address}</td>
                 </tr>
-              </>
-                ))
-              : completedOrders.map((ele) => (
+              </>             
+              )) 
+              
+              
+              : 
+            
+
+              completedsearchData?.map((ele)=>(
                 <>
                 <tr>
                   <td>{ele?.catalogueId?.orderId}</td>
@@ -215,8 +224,11 @@ export const MainSection = () => {
                   </td>
                   <td>{ele.address}</td>
                 </tr>
-              </>
-                ))}
+              </>              
+              ))
+                
+              
+                }
           </tbody>
         </table>
       </div>

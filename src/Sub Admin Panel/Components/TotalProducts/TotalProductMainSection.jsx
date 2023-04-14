@@ -165,6 +165,7 @@ export const TotalProductMainSection = () => {
     console.log(searchData);
   };
 
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />

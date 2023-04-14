@@ -151,9 +151,9 @@ export const TotalOrderMainSection = () => {
                     <td>{ele.totalPackages}</td>
                     <td>{ele.createdAt}</td>
                     <td>{ele.address}</td>
-                    <td>
+                    {/*<td>
                       <button>Details</button>
-                    </td>
+                </td>*/}
                   </tr>
                 </>                
                 ))
@@ -168,7 +168,9 @@ export const TotalOrderMainSection = () => {
                         <td>{ele.totalPackages}</td>
                         <td>{ele.createdAt}</td>
                         <td>{ele.address}</td>
-                        <td>
+                       {/*<td>
+                      <button>Details</button>
+                </td>*/} <td>
                           <button>Details</button>
                         </td>
                       </tr>
@@ -183,9 +185,9 @@ export const TotalOrderMainSection = () => {
                         <td>{ele.totalPackages}</td>
                         <td>{ele.createdAt}</td>
                         <td>{ele.address}</td>
-                        <td>
-                          <button>Details</button>
-                        </td>
+                        {/*<td>
+                      <button>Details</button>
+                </td>*/}
                       </tr>
                     </>
                   ))
@@ -197,9 +199,9 @@ export const TotalOrderMainSection = () => {
                         <td>{ele.package}</td>
                         <td>{ele.date}</td>
                         <td>{ele.location}</td>
-                        <td>
-                          <button>Details</button>
-                        </td>
+                        {/*<td>
+                      <button>Details</button>
+                </td>*/}
                       </tr>
                     </>
                   ))}

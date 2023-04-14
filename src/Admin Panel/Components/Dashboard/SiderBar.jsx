@@ -606,24 +606,23 @@ export const SiderBar = () => {
             <p>Dashboard</p>
           </div>
         </Link>
-        <div className={styles.dropdown}>
+        <div className={styles.dropdown} onClick={() => setModalShow(true)}>
           <OrderStatusModal OpenModal={OpenModal} HandleModal={HandleModal} />
           <BiCurrentLocation />
-          <p onClick={() => setModalShow(true)}>Tracking</p>
+          <p >Tracking</p>
           <FiChevronDown
             onClick={() => {
               setShowDropDown(!showDropdown);
             }}
             className={styles.DownIcon}
           />
-          <div className={showDropdown ? styles.dropdownContent : styles.show}>
-            {/* <Link to={"/deliverystatus"}> */}
+          {/*<div className={showDropdown ? styles.dropdownContent : styles.show}>
+      
             <p onClick={HandleModal}> Order Tracking</p>
-            {/* </Link> */}
-            {/* <Link to={"/customerstatus"}> */}
+           
             <p onClick={HandleModal}> Customer Tracking</p>
-            {/* </Link> */}
-          </div>
+           
+          </div>*/}
         </div>
         {/*<div className={styles.dropdown}>
           <Link to="/notification">

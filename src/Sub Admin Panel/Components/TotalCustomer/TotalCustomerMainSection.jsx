@@ -55,6 +55,13 @@ export const TotalCustomerMainSection = () => {
                item?.lastName?.toLowerCase()?.includes(query.toLowerCase())
             )
           })
+  const newsearchData = !query ?  newCustomer :
+          newCustomer.filter((item)=>{
+            return (
+              item?.middleName?.toLowerCase()?.includes(query?.toLowerCase()) ||
+               item?.lastName?.toLowerCase()?.includes(query.toLowerCase())
+            )
+          })
 
           const [modalShow, setModalShow] = React.useState(false);
 
@@ -231,7 +238,7 @@ export const TotalCustomerMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? searchData?.length >0  
+                // ? searchData?.length >0  
                 ?
                   searchData?.map((ele)=>(
                     <>
@@ -254,48 +261,52 @@ export const TotalCustomerMainSection = () => {
                     </tr>
                   </>
                   ))
-                :customer?.map((ele) => (
-                    <>
-                      <tr>
-                        <td>{ele.middleName}</td>
-                        <td>{ele.lastName}</td>
+                // :customer?.map((ele) => (
+                //     <>
+                //       <tr>
+                //         <td>{ele.middleName}</td>
+                //         <td>{ele.lastName}</td>
 
-                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
-                        <td>{ele.state}</td>
-                        <td>{ele.district}</td>
-                        <td>{ele.pincode}</td>
-                        <td>
-                          {" "}
-                          <BsEyeFill
-                            onClick={HandleModal}
-                            cursor={"pointer"}
-                            color="#C5161D"
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  ))
-                : newCustomer?.map((ele) => (
-                    <>
-                      <tr>
-                      <td>{ele.middleName}</td>
-                        <td>{ele.lastName}</td>
+                //         <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
+                //         <td>{ele.state}</td>
+                //         <td>{ele.district}</td>
+                //         <td>{ele.pincode}</td>
+                //         <td>
+                //           {" "}
+                //           <BsEyeFill
+                //             onClick={HandleModal}
+                //             cursor={"pointer"}
+                //             color="#C5161D"
+                //           />
+                //         </td>
+                //       </tr>
+                //     </>
+                //   ))
+                // :
+                :
+                
+                 newsearchData?.map((ele)=>(
+                  <>
+                  <tr>
+                  <td>{ele.middleName}</td>
+                    <td>{ele.lastName}</td>
 
-                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
-                        <td>{ele.state}</td>
-                        <td>{ele.district}</td>
-                        <td>{ele.pincode}</td>
-                        <td>
-                          {" "}
-                          {/*<BsEyeFill
-                            onClick={HandleModal}
-                            cursor={"pointer"}
-                            color="#C5161D"
-                />*/}
-                        </td>
-                      </tr>
-                    </>
-                  ))}
+                    <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
+                    <td>{ele.state}</td>
+                    <td>{ele.district}</td>
+                    <td>{ele.pincode}</td>
+                    <td>
+                      {" "}
+                      {/*<BsEyeFill
+                        onClick={HandleModal}
+                        cursor={"pointer"}
+                        color="#C5161D"
+            />*/}
+                    </td>
+                  </tr>
+                </>              
+                 ))
+              }
             </tbody>
           </table>
         </div>

@@ -59,6 +59,14 @@ export const TotalCustomerMainSection = () => {
             )
           })
 
+  const newsearchData = !query? newCustomer :
+                      newCustomer?.filter((item)=>{
+                        return (
+                          item?.middleName?.toLowerCase()?.includes(query?.toLowerCase()) ||
+                          item?.lastName?.toLowerCase()?.includes(query?.toLowerCase())
+                        )
+                      })
+
  /* const HandleSearch = (e) => {
     const { value } = e.target;
     if (value === "") {
@@ -249,7 +257,6 @@ export const TotalCustomerMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? searchData?.length>0 
                   ?
                   searchData?.map((ele)=>(
                     <>
@@ -261,19 +268,21 @@ export const TotalCustomerMainSection = () => {
                         <td>{ele.state}</td>
                         <td>{ele.district}</td>
                         <td>{ele.pincode}</td>
-                        <td>
+                        {/*<td>
                           {" "}
                           <BsEyeFill
                             onClick={HandleModal}
                             cursor={"pointer"}
                             color="#C5161D"
                           />
-                        </td>
+                  </td>*/}
                       </tr>
                     </>
                   ))
-                : customers?.map((ele) => (
-                    <>
+               
+                :
+                  
+                    newsearchData?.map((ele)=>(
                       <tr>
                         <td>{ele.middleName}</td>
                         <td>{ele.lastName}</td>
@@ -282,38 +291,17 @@ export const TotalCustomerMainSection = () => {
                         <td>{ele.state}</td>
                         <td>{ele.district}</td>
                         <td>{ele.pincode}</td>
-                        <td>
+                        {/*<td>
                           {" "}
                           <BsEyeFill
                             onClick={HandleModal}
                             cursor={"pointer"}
                             color="#C5161D"
                           />
-                        </td>
-                      </tr>
-                    </>
-                  ))
-                : newCustomer?.map((ele) => (
-                    <>
-                      <tr>
-                        <td>{ele.middleName}</td>
-                        <td>{ele.lastName}</td>
-
-                        <td>{ele.firstLineAddress + ele.secondLineAddress}</td>
-                        <td>{ele.state}</td>
-                        <td>{ele.district}</td>
-                        <td>{ele.pincode}</td>
-                        <td>
-                          {" "}
-                          <BsEyeFill
-                            onClick={HandleModal}
-                            cursor={"pointer"}
-                            color="#C5161D"
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  ))}
+                        </td>*/}
+                      </tr>                    
+                    ))
+                }
             </tbody>
           </table>
         </div>

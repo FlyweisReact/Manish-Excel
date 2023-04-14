@@ -43,13 +43,25 @@ export const MainSection = () => {
   const [query, setQuery] = useState("");
 
 
-  const searchData = !query ? orders :
+  const searchData = !query ? ongoingOrders :
                   orders?.filter((item)=>{
                     return (
                       item?.catalogueId?.orderId?.includes(query)
                     )
-                  })
-  console.log(searchData);
+                  });
+  const ongoingsearchData = !query ? ongoingOrders :
+                  ongoingOrders?.filter((item)=>{
+                    return (
+                      item?.catalogueId?.orderId?.includes(query)
+                    )
+                  });
+    const completedsearchData = !query ? completedOrders :
+                  completedOrders?.filter((item)=>{
+                    return (
+                      item?.catalogueId?.orderId?.includes(query)
+                    )
+                  });
+  //console.log(searchData);
 
   useEffect(() => {
     dispatch(GetBranches());
@@ -179,8 +191,7 @@ export const MainSection = () => {
           </thead>
           <tbody>
             {tab === "order"
-              ? searchData?.length>0 ?
-
+              ? 
                 searchData?.map((ele)=>(
                   <>
                     <tr>
@@ -196,23 +207,10 @@ export const MainSection = () => {
                   </>              
                 ))
               
-              : orders?.map((ele) => (
-                  <>
-                    <tr>
-                      <td>{ele?.catalogueId?.orderId}</td>
-                      <td>{ele.userId}</td>
-                      <td>{ele.totalPackages}</td>
-                      <td>{ele.createdAt}</td>
-                      <td>
-                        {ele?.catalogueId?.totalAmount}
-                      </td>
-                      <td>{ele.address}</td>
-                    </tr>
-                  </>
-                ))
+              
               : tab === "ongoing" ?
-              ongoingOrders.map((ele) => (
-                  <>
+                  ongoingsearchData?.map((ele,i)=>(
+                    <>
                     <tr>
                       <td>{ele?.catalogueId?.orderId}</td>
                         <td>{ele.userId}</td>
@@ -223,22 +221,27 @@ export const MainSection = () => {
                         </td>
                         <td>{ele.address}</td>
                     </tr>
-                  </>
-                ))
-              : completedOrders.map((ele) => (
-                  <>
-                    <tr>
-                      <td>{ele?.catalogueId?.orderId}</td>
-                          <td>{ele.userId}</td>
-                          <td>{ele.totalPackages}</td>
-                          <td>{ele.createdAt}</td>
-                          <td>
-                            {ele?.catalogueId?.totalAmount}
-                          </td>
-                        <td>{ele.address}</td>
-                    </tr>
-                  </>
-                ))}
+                  </>                
+                  ))
+               
+              : 
+                
+              completedsearchData?.map((ele,i)=>(
+                <>
+                <tr>
+                  <td>{ele?.catalogueId?.orderId}</td>
+                      <td>{ele.userId}</td>
+                      <td>{ele.totalPackages}</td>
+                      <td>{ele.createdAt}</td>
+                      <td>
+                        {ele?.catalogueId?.totalAmount}
+                      </td>
+                    <td>{ele.address}</td>
+                </tr>
+              </>         
+              ))
+              
+              }
           </tbody>
         </table>
       </div>
