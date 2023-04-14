@@ -86,7 +86,7 @@ export const ReportMainSection = () => {
         </div>
         <ReportGraph chartData={chartData} />
       </div>
-      <div className={stylesfromDash.mainOrderSection}>
+      {/*<div className={stylesfromDash.mainOrderSection}>
         <h1 className={styles.Title}>Report List</h1>
         <div className={stylesfromDash.TabTitle}>
           <div
@@ -211,7 +211,7 @@ export const ReportMainSection = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>*/}
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const BranchList = ({ data, key, HandleBranchLoginModal }) => {
         <h2>{data.branch}</h2>
         <p>{data.branch_add}</p>
       </div>
-      <button onClick={HandleBranchLoginModal}>Login</button>
+     {/* <button onClick={HandleBranchLoginModal}>Login</button> */}
     </div>
   );
 };

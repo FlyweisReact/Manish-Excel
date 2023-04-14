@@ -4,11 +4,31 @@ import { GrNotes } from "react-icons/gr";
 import { MdPayment } from "react-icons/md";
 import { RiTruckLine } from "react-icons/ri";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
-export const StatusTrack = () => {
+export const StatusTrack = (props) => {
   return (
     <div className={styles.StatusTrackMainDiv}>
       <div>
         <div className={styles.StatusDateBig}>
+          <h1>{props.date}</h1>
+          <p>{props.time}</p>
+        </div>
+        {/*<div className={styles.StatusDateSmall}>
+          <h1>Jan 20</h1>
+          <p>11:20AM</p>
+        </div>
+        <div className={styles.StatusDateSmall}>
+          <h1>Jan 20</h1>
+          <p>11:20AM</p>
+        </div>
+        <div className={styles.StatusDateBig}>
+          <h1>Jan 20</h1>
+          <p>11:20AM</p>
+        </div>
+        <div className={styles.StatusDateBig}>
+          <h1>Jan 20</h1>
+          <p>11:20AM</p>
+        </div>
+        <div className={styles.StatusDateBig}>
           <h1>Jan 20</h1>
           <p>11:20AM</p>
         </div>
@@ -23,36 +43,16 @@ export const StatusTrack = () => {
         <div className={styles.StatusDateBig}>
           <h1>Jan 20</h1>
           <p>11:20AM</p>
-        </div>
-        <div className={styles.StatusDateBig}>
-          <h1>Jan 20</h1>
-          <p>11:20AM</p>
-        </div>
-        <div className={styles.StatusDateBig}>
-          <h1>Jan 20</h1>
-          <p>11:20AM</p>
-        </div>
-        <div className={styles.StatusDateSmall}>
-          <h1>Jan 20</h1>
-          <p>11:20AM</p>
-        </div>
-        <div className={styles.StatusDateSmall}>
-          <h1>Jan 20</h1>
-          <p>11:20AM</p>
-        </div>
-        <div className={styles.StatusDateBig}>
-          <h1>Jan 20</h1>
-          <p>11:20AM</p>
-        </div>
+        </div>*/}
       </div>
       <div>
         <div className={styles.StatusTrackSecondDiv}>
           <div className={styles.StatusTrackSecondDivIcons}>
             <GrNotes size={25} />
           </div>
-          <p>Order Recived by admin</p>
+          <p>{props.track}</p>
         </div>
-        <div className={styles.StatusTrackSecondDivSmall}>
+        {/*<div className={styles.StatusTrackSecondDivSmall}>
           <div className={styles.StatusTrackSecondDivSmallIcons}></div>
           <p>Order Recived by admin</p>
         </div>
@@ -91,7 +91,7 @@ export const StatusTrack = () => {
             <IoCheckmarkCircleSharp size={25} />
           </div>
           <p>Order Recived by admin</p>
-        </div>
+      </div>*/}
       </div>
     </div>
   );

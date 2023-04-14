@@ -47,6 +47,16 @@ export const RoleMainSection = () => {
                     return item?.lastName?.toLowerCase()?.includes(query?.toLowerCase()) 
                   })
 
+  const adminsearchData = !query ? admin :
+  admin?.filter((item)=>{
+    return item?.lastName?.toLowerCase()?.includes(query?.toLowerCase()) 
+  })
+  const subadminsearchData = !query ? sub_admin :
+  sub_admin?.filter((item)=>{
+    return item?.lastName?.toLowerCase()?.includes(query?.toLowerCase()) 
+  })
+
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -121,7 +131,22 @@ export const RoleMainSection = () => {
                     </>
                   ))
                 : tab === "admin"
-                ? admin?.map((ele, i) => (
+                ? 
+                adminsearchData?.length>0 ?
+                  adminsearchData?.map((ele, i)=>(
+                    <>
+                    <tr>
+                      <td>
+                        <div>{ele.lastName}</div>
+                      </td>
+                      <td>{i + 1}</td>
+
+                      <td>{ele.role}</td>
+                    </tr>
+                  </>                 
+                  ))
+
+                :admin?.map((ele, i) => (
                     <>
                       <tr>
                         <td>
@@ -133,7 +158,23 @@ export const RoleMainSection = () => {
                       </tr>
                     </>
                   ))
-                : sub_admin?.map((ele, i) => (
+                : 
+                  subadminsearchData?.length>0 
+                  ?
+                   subadminsearchData?.map((ele,i)=>(
+                    <>
+                    <tr>
+                      <td>
+                        <div>{ele.lastName}</div>
+                      </td>
+                      <td>{i + 1}</td>
+
+                      <td>{ele.role}</td>
+                    </tr>
+                  </>
+                   ))
+                
+                :sub_admin?.map((ele, i) => (
                     <>
                       <tr>
                         <td>

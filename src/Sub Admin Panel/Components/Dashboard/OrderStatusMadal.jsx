@@ -1,15 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineClose } from "react-icons/md";
 import styles from "../../Styles/OrderStatusModal.module.css";
 import { OrderUpdateStatusModal } from "./OrderUpdateStatusModal";
 import { StatusTrack } from "./StatusTrack";
 import ProductImg from "../../Assets/Product_img.png";
+import axios from "axios";
 export const OrderStatusModal = ({ OpenModal, HandleModal }) => {
   const [tab, setTab] = useState("delivery");
   const [openMod, setOpenMod] = useState(false);
+  const [orderTrack, setOrderTrack] = useState([]);
+  const [message, setMessage] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const HandleStatusUpdateModal = () => {
     setOpenMod(!openMod);
   };
+
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orderTrackings";
+
+  const getOrderTrack = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setOrderTrack(res?.data?.data);
+      console.log(res?.data?.data);
+      console.log(orderTrack[0]);
+      setMessage(orderTrack[0]?.message);
+      setTime(orderTrack[0]?.time);
+      setDate(orderTrack[0]?.date);
+      console.log(time, date, message);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getOrderTrack();
+  }, []);
+
   return (
     <div className={OpenModal ? styles.modalVisible : styles.modal}>
       <div className={styles.ModalMainDiv}>
@@ -43,7 +74,7 @@ export const OrderStatusModal = ({ OpenModal, HandleModal }) => {
                 className={styles.customerSection}
               >
                 <div>
-                  <StatusTrack />
+                  <StatusTrack track={message} time={time} date={date} />
                 </div>
               </div>
             ) : (
@@ -63,7 +94,7 @@ export const OrderStatusModal = ({ OpenModal, HandleModal }) => {
               </div>
             )}
           </div>
-          <div className={styles.MainSecondDiv}>
+          {/*<div className={styles.MainSecondDiv}>
             <h2>Order Detail's</h2>
             <img
               src={ProductImg}
@@ -158,7 +189,7 @@ export const OrderStatusModal = ({ OpenModal, HandleModal }) => {
                 </p>
               </div>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

@@ -71,22 +71,23 @@ export const TotalBranch = () => {
   useEffect(() => {
     dispatch(GetBranches());
   }, [dispatch]);
-  //console.log(branches);
+  console.log(branches);
 
   const HandleBranchLoginModal = () => {
     setShow(!show);
   };
   //let searchData = []
-  const [query, setQuery] = useState("");
+  /*const [query, setQuery] = useState("");
   const searchData = !query ?  branches :
           branches?.filter((item)=>{
             return (
-              item?.branch?.includes(query)
+              item?.branch?.toLowerCase()?.includes(query?.toLowerCase()
+              )
             )
-          });
+          });*/
         //  searchData = tmp;
 
-  console.log(searchData);
+  //console.log(searchData);
         
   //console.log(searchData);
   /*const HandleSearch = (e) => {
@@ -114,11 +115,10 @@ export const TotalBranch = () => {
         </h1>
       </div>
       <div className={styles.inputBoxMainDiv}>
-        <div className={styles.inputBox}>
+        {/*<div className={styles.inputBox}>
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
-          <input type="text" placeholder="Search by branch name"
-           onChange={(e)=>setQuery(e.target.value)}/>
-        </div>
+
+        </div>*/}
         <button onClick={()=>setModalShow(true)}>
           Add Branch</button>
       </div>
@@ -128,7 +128,7 @@ export const TotalBranch = () => {
           HandleBranchLoginModal={HandleBranchLoginModal}
           branch={branches}
         />
-        {searchData?.length>0 
+        {/*searchData?.length>0 
           ?
             searchData?.map((ele)=>{
               <>
@@ -140,12 +140,12 @@ export const TotalBranch = () => {
                 />
             </>            
             })
-        :branches?.map((ele) => (
+        :*/branches?.map((ele) => (
           <>
             <BranchList
               key={ele.id}
               data={ele}
-              HandleBranchLoginModal={HandleBranchLoginModal}
+              /*HandleBranchLoginModal={HandleBranchLoginModal}*/
             />
           </>
         ))}

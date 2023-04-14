@@ -43,12 +43,26 @@ export const RoleMainSection = () => {
   });
 
   const [query, setQuery] = useState("");
-
   const searchData = !query ? all : 
                   all.filter((item)=>{
                     return item?.firstName?.toLowerCase()?.includes(query?.toLowerCase()) || 
                           item?.lastName?.toLowerCase()?.includes(query?.toLowerCase())
                   })
+
+  const adminsearchData = !query ? admin : 
+                            admin?.filter((item)=>{
+                              return item?.firstName?.toLowerCase()?.includes(query?.toLowerCase()) || 
+                                    item?.lastName?.toLowerCase()?.includes(query?.toLowerCase())
+                            })
+  const subadminsearchData = !query ? sub_admin : 
+                            sub_admin?.filter((item)=>{
+                              return item?.firstName?.toLowerCase()?.includes(query?.toLowerCase()) || 
+                                    item?.lastName?.toLowerCase()?.includes(query?.toLowerCase())
+                          })
+
+  const handleChange = (e)=>{
+    setQuery(e.target.value);
+  }
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -58,7 +72,7 @@ export const RoleMainSection = () => {
           <div>
             <AiOutlineSearch className={styles.SearchIcon} />
             <input type="text" placeholder="Search by order Id,Customer Id"
-              onChange = {(e)=>setQuery(e.target.value)}
+              onChange = {(e)=>handleChange(e)}
             />
           </div>
           <button>Search</button>
@@ -127,7 +141,24 @@ export const RoleMainSection = () => {
                     </>
                   ))
                 : tab === "admin"
-                ? admin?.map((ele) => (
+                ? adminsearchData?.length>0 ?
+
+                  adminsearchData?.map((ele)=>(
+                    <>
+                    <tr>
+                      <td>
+                        <div>
+                          {`${ele.firstName} ${ele.lastName}`}
+                        </div>
+                      </td>
+                      <td>{ele._id}</td>
+                      <td>{ele.role}</td>
+                    </tr>
+                  </>
+                  ))
+
+                :
+                admin?.map((ele) => (
                     <>
                       <tr>
                         <td>
@@ -140,7 +171,24 @@ export const RoleMainSection = () => {
                       </tr>
                     </>
                   ))
-                : sub_admin?.map((ele) => (
+                :
+                  subadminsearchData?.length>0 ?
+                  
+                  subadminsearchData?.map((ele)=>(
+                    <>
+                      <tr>
+                        <td>
+                          <div>
+                            {`${ele.firstName} ${ele.lastName}`}
+                          </div>
+                        </td>
+                        <td>{ele._id}</td>
+                        <td>{ele.role}</td>
+                      </tr>
+                    </>
+                  ))
+                
+                :sub_admin?.map((ele) => (
                     <>
                       <tr>
                         <td>

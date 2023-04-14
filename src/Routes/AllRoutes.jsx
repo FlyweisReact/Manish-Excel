@@ -15,6 +15,7 @@ import { TermAndCondition } from "../Admin Panel/Pages/TermAndCondition";
 import { TotalCustomer } from "../Admin Panel/Pages/TotalCustomer";
 import { TotalOrder } from "../Admin Panel/Pages/TotalOrder";
 import { TotalProducts } from "../Admin Panel/Pages/TotalProducts";
+import { OrderTrack } from "../Admin Panel/Pages/order-track";
 
 export const AllRoutes = () => {
   return (
@@ -36,6 +37,7 @@ export const AllRoutes = () => {
         <Route path="/totalproducts" element={<TotalProducts />} />
         <Route path="/totalorders" element={<TotalOrder />} />
         <Route path="/hubandcities" element={<HubAndCities />} />
+        <Route path="/order-track" element={<OrderTrack />} />
       </Routes>
     </div>
   );
