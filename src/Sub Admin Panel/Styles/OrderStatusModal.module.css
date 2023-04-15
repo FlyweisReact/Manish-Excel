@@ -452,3 +452,13 @@ margin-left: 20px;
     cursor: pointer;
     color: white;
 }
+
+.Ordercont {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .orderitm{
+      width:24%;
+  }
+  

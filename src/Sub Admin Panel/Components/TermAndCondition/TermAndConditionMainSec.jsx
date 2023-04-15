@@ -35,7 +35,7 @@ export const TermAndConditionMainSec = () => {
            }
           } 
         )
-        console.log(res?.data);
+       // console.log(res?.data);
        dispatch(getTerms());
       }catch(err){
         console.log(err.message);

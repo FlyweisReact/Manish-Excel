@@ -624,7 +624,7 @@ export const SiderBar = () => {
            
           </div>*/}
         </div>
-        {/*<div className={styles.dropdown}>
+        <div className={styles.dropdown}>
           <Link to="/notification">
             <div>
               <MdOutlineNotificationAdd />
@@ -632,7 +632,7 @@ export const SiderBar = () => {
             </div>
           </Link>
           <FiChevronDown className={styles.DownIcon} />
-        </div>*/}
+        </div>
         {/*<div className={styles.dropdown}>
           <MdHistory />
           <p>History</p>
@@ -644,11 +644,12 @@ export const SiderBar = () => {
             <p>Hub Cities</p>
           </div>
         </Link>
-
+        <Link to="/notification">
         <div>
           <AiOutlineMessage />
           <p>SMS Notification</p>
         </div>
+        </Link>
         <Link to={"/help"}>
           <div>
             <FiHelpCircle />

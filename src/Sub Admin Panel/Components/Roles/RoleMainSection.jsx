@@ -104,7 +104,6 @@ export const RoleMainSection = () => {
             <tbody>
               {tab === "all"
                 ? 
-                searchData?.length > 0?
                   searchData?.map((ele, i)=>(
                     <>
                       <tr>
@@ -118,21 +117,8 @@ export const RoleMainSection = () => {
                     </>                  
                   ))
                 
-                :all?.map((ele, i) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>{ele.lastName}</div>
-                        </td>
-                        <td>{i + 1}</td>
-
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))
                 : tab === "admin"
                 ? 
-                adminsearchData?.length>0 ?
                   adminsearchData?.map((ele, i)=>(
                     <>
                     <tr>
@@ -145,22 +131,8 @@ export const RoleMainSection = () => {
                     </tr>
                   </>                 
                   ))
-
-                :admin?.map((ele, i) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>{ele.lastName}</div>
-                        </td>
-                        <td>{i + 1}</td>
-
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))
                 : 
-                  subadminsearchData?.length>0 
-                  ?
+                  
                    subadminsearchData?.map((ele,i)=>(
                     <>
                     <tr>
@@ -173,19 +145,7 @@ export const RoleMainSection = () => {
                     </tr>
                   </>
                    ))
-                
-                :sub_admin?.map((ele, i) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>{ele.lastName}</div>
-                        </td>
-                        <td>{i + 1}</td>
-
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))}
+                }
             </tbody>
           </table>
         </div>

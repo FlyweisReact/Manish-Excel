@@ -82,19 +82,19 @@ export const RoleMainSection = () => {
             onClick={() => setTab("all")}
             className={tab === "all" && styles.active}
           >
-            All({admin?.length})
+            All({all?.length})
           </div>
           <div
             onClick={() => setTab("admin")}
             className={tab === "admin" && styles.active}
           >
-            Admin({admin.length})
+            Admin({admin?.length})
           </div>
           <div
             onClick={() => setTab("subAdmin")}
             className={tab === "subAdmin" && styles.active}
           >
-            Sub-Admin({sub_admin.length})
+            Sub-Admin({sub_admin?.length})
           </div>
         </div>
         <hr />
@@ -110,7 +110,6 @@ export const RoleMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? searchData?.length>0
                 ?
                   searchData?.map((ele)=>(
                     <>
@@ -125,24 +124,7 @@ export const RoleMainSection = () => {
                       </tr>
                     </>
                   ))
-
-                :
-                all?.map((ele) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>
-                            {`${ele.firstName} ${ele.lastName}`}
-                          </div>
-                        </td>
-                        <td>{ele._id}</td>
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))
-                : tab === "admin"
-                ? adminsearchData?.length>0 ?
-
+                : tab === "admin" ?
                   adminsearchData?.map((ele)=>(
                     <>
                     <tr>
@@ -157,22 +139,8 @@ export const RoleMainSection = () => {
                   </>
                   ))
 
+                
                 :
-                admin?.map((ele) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>
-                            {`${ele.firstName} ${ele.lastName}`}
-                          </div>
-                        </td>
-                        <td>{ele._id}</td>
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))
-                :
-                  subadminsearchData?.length>0 ?
                   
                   subadminsearchData?.map((ele)=>(
                     <>
@@ -188,19 +156,7 @@ export const RoleMainSection = () => {
                     </>
                   ))
                 
-                :sub_admin?.map((ele) => (
-                    <>
-                      <tr>
-                        <td>
-                          <div>
-                            {`${ele.firstName} ${ele.lastName}`}
-                          </div>
-                        </td>
-                        <td>{ele._id}</td>
-                        <td>{ele.role}</td>
-                      </tr>
-                    </>
-                  ))}
+                }
             </tbody>
           </table>
         </div>

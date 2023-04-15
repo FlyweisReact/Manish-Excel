@@ -15,8 +15,8 @@ export const MainInfo = () => {
           className={styles.mainIcon}
           onClick={() => navigate("/SubAdminProfile")}
         />
-        <MdOutlineNotificationAdd className={styles.mainIcon} />
-        <AiOutlineSetting className={styles.mainIcon} />
+        {/*<MdOutlineNotificationAdd className={styles.mainIcon} />
+        <AiOutlineSetting className={styles.mainIcon} />*/}
       </div>
     </div>
   );

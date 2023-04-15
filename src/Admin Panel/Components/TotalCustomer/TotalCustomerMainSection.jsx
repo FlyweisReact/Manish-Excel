@@ -154,13 +154,14 @@ export const TotalCustomerMainSection = () => {
             <label>Middle Name</label>
             <input type="text" onChange={(e)=>setmname(e.target.value)} required/>
             <label>Phone</label>
-            <input type="text" onChange={(e)=>setPhone(e.target.value)} required/>
+            <input type="text" onChange={(e)=>setPhone(e.target.value)} placeholder="9999...." required/>
             <label>Email</label>
-            <input type="text" onChange={(e)=>setEmail(e.target.value)} required/>
+            <input type="email" onChange={(e)=>setEmail(e.target.value)} placeholder="example@gmail.com"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
             <label>Customer Id</label>
-            <input type="text" onChange={(e)=>setcid(e.target.value)} required/>
+            <input type="text" onChange={(e)=>setcid(e.target.value)} placeholder="123456.." required/>
             <label>DOB</label>
-            <input type="text" onChange={(e)=>setdob(e.target.value)} required/>
+            <input type="date" onChange={(e)=>setdob(e.target.value)} required/>
             <label>Gender</label>
             <input type="text" onChange={(e)=>setgender(e.target.value)} required/>
             <label>Blood Group</label>
@@ -187,7 +188,7 @@ export const TotalCustomerMainSection = () => {
             <input type="text" onChange={(e)=>setDistrict(e.target.value)} required/>
             <label>Pincode</label>
             <input type="text" onChange={(e)=>setPincode(e.target.value)} required/>
-            <button type="submit"  >Add Branch</button>
+            <button type="submit"  >Add Customer</button>
           </form>
         </Modal.Body>
         <Modal.Footer>

@@ -97,7 +97,7 @@ export const Login = () => {
               </option>
             </>
           ))}
-          <option value="Sub-admin">Sub Admin</option>
+          <option value="sub-admin">Sub Admin</option>
           <option value="sub-admin">Sub Admin</option>
         </select>
       </div>

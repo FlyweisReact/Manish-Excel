@@ -136,11 +136,11 @@ export const TotalCustomerMainSection = () => {
                     <label>Middle Name</label>
                     <input type="text" onChange={(e)=>setmname(e.target.value)} required/>
                     <label>Phone</label>
-                    <input type="text" onChange={(e)=>setPhone(e.target.value)} required/>
+                    <input type="text" onChange={(e)=>setPhone(e.target.value)} placeholder="9897...." required/>
                     <label>Email</label>
-                    <input type="text" onChange={(e)=>setEmail(e.target.value)} required/>
+                    <input type="email" onChange={(e)=>setEmail(e.target.value)} placeholder="example@gmail.com" required/>
                     <label>Customer Id</label>
-                    <input type="text" onChange={(e)=>setcid(e.target.value)} required/>
+                    <input type="text" onChange={(e)=>setcid(e.target.value)} placeholder="123456..." required/>
                     <label>DOB</label>
                     <input type="text" onChange={(e)=>setdob(e.target.value)} required/>
                     <label>Gender</label>
