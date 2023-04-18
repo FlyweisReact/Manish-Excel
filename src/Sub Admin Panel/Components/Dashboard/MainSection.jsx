@@ -10,66 +10,59 @@ import { FiFilter } from "react-icons/fi";
 import { MainInfo } from "./MainInfo";
 import { OrderStatusModal } from "./OrderStatusMadal";
 import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios';
+import axios from "axios";
 export const MainSection = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("order");
   const [OpenModal, setOpenModal] = useState(false);
   const [orders, setOrders] = useState([]);
-  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
-  const getAllOrders = async ()=>{
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+  const getAllOrders = async () => {
     const token = localStorage.getItem("token");
-    try{
-      const res = await axios.get(url,
-        {
-          headers:{Authorization:`Bearer ${token}`}
-        }
-      )
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setOrders(res?.data?.data);
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllOrders();
-  },[])
+  }, []);
 
-  const ongoingOrders = orders?.filter((item)=>{
+  const ongoingOrders = orders?.filter((item) => {
     return item?.orderStatus === "ongoing";
-  })
+  });
 
   //console.log(orders);
 
-  const completedOrders = orders?.filter((item)=>{
+  const completedOrders = orders?.filter((item) => {
     return item?.orderStatus === "delivered";
-  })
+  });
 
   const [query, setQuery] = useState("");
 
+  const searchData = !query
+    ? orders
+    : orders?.filter((item) => {
+        return item?.catalogueId?.orderId?.includes(query);
+      });
 
-  const searchData = !query ? orders :
-                  orders?.filter((item)=>{
-                    return (
-                      item?.catalogueId?.orderId?.includes(query)
-                    )
-                  })
+  const ongoingsearchData = !query
+    ? ongoingOrders
+    : ongoingOrders?.filter((item) => {
+        return item?.catalogueId?.orderId?.includes(query);
+      });
+  const completedsearchData = !query
+    ? completedOrders
+    : completedOrders?.filter((item) => {
+        return item?.catalogueId?.orderId?.includes(query);
+      });
 
-  const ongoingsearchData = !query ? ongoingOrders :
-                  ongoingOrders?.filter((item)=>{
-                    return (
-                      item?.catalogueId?.orderId?.includes(query)
-                    )
-                  })
-  const completedsearchData = !query ? completedOrders :
-                  completedOrders?.filter((item)=>{
-                    return (
-                      item?.catalogueId?.orderId?.includes(query)
-                    )
-                  })
-
-
-                
   console.log(searchData);
 
   const HandleModal = () => {
@@ -110,7 +103,7 @@ export const MainSection = () => {
             onClick={() => setTab("order")}
             className={tab === "order" && styles.active}
           >
-            All Orders
+            All Orders({orders?.length})
           </div>
           <div
             onClick={() => setTab("ongoing")}
@@ -130,8 +123,10 @@ export const MainSection = () => {
           <div>
             <div>
               <AiOutlineSearch className={styles.filterSectionIconSearch} />
-              <input type="text" placeholder="Search by order Id,Customer Id" 
-                onChange={(e)=>setQuery(e.target.value)}
+              <input
+                type="text"
+                placeholder="Search by order Id,Customer Id"
+                onChange={(e) => setQuery(e.target.value)}
               />
             </div>
             <button>Search</button>
@@ -152,7 +147,7 @@ export const MainSection = () => {
         <table>
           <thead>
             <tr>
-            <th>
+              <th>
                 Order Id <AiFillCaretDown />
               </th>
               <th>
@@ -162,73 +157,59 @@ export const MainSection = () => {
                 Package <AiFillCaretDown />
               </th>
               <th>
-                Order Date <AiFillCaretDown />
+                Delivery Date <AiFillCaretDown />
               </th>
-              {/*<th>
-                Status <AiFillCaretDown />
-  </th>*/}
+              {
+                <th>
+                  Status <AiFillCaretDown />
+                </th>
+              }
               <th>Total Amount</th>
-              <th>Location</th>
+              <th>Payment</th>
             </tr>
           </thead>
           <tbody>
             {tab === "order"
-              ?
-                searchData?.map((ele)=>(
+              ? searchData?.map((ele) => (
                   <>
-                  <tr>
-                    <td>{ele?.catalogueId?.orderId}</td>
-                    <td>{ele.userId}</td>
-                    <td>{ele.totalPackages}</td>
-                    <td>{ele.createdAt}</td>
-                    <td>
-                      {ele?.catalogueId?.totalAmount}
-                    </td>
-                    <td>{ele.address}</td>
-                  </tr>
-                </>                 
-                ))  
-
-            
+                    <tr>
+                      <td>{ele?.catalogueId?.orderId}</td>
+                      <td>{ele.userId}</td>
+                      <td>{ele.totalPackages}</td>
+                      <td>{ele.createdAt}</td>
+                      <td>on-going</td>
+                      <td>{ele?.catalogueId?.totalAmount}</td>
+                      <td><button onClick={()=>navigate("/invoice-details")}>P.invoice</button></td>
+                    </tr>
+                  </>
+                ))
               : tab === "ongoing"
-              ? 
-            
-              ongoingsearchData?.map((ele)=>(
-                <>
-                <tr>
-                  <td>{ele?.catalogueId?.orderId}</td>
-                  <td>{ele.userId}</td>
-                  <td>{ele.totalPackages}</td>
-                  <td>{ele.createdAt}</td>
-                  <td>
-                    {ele?.catalogueId?.totalAmount}
-                  </td>
-                  <td>{ele.address}</td>
-                </tr>
-              </>             
-              )) 
-              
-              
-              : 
-            
-
-              completedsearchData?.map((ele)=>(
-                <>
-                <tr>
-                  <td>{ele?.catalogueId?.orderId}</td>
-                  <td>{ele.userId}</td>
-                  <td>{ele.totalPackages}</td>
-                  <td>{ele.createdAt}</td>
-                  <td>
-                    {ele?.catalogueId?.totalAmount}
-                  </td>
-                  <td>{ele.address}</td>
-                </tr>
-              </>              
-              ))
-                
-              
-                }
+              ? ongoingsearchData?.map((ele) => (
+                  <>
+                    <tr>
+                      <td>{ele?.catalogueId?.orderId}</td>
+                      <td>{ele.userId}</td>
+                      <td>{ele.totalPackages}</td>
+                      <td>{ele.createdAt}</td>
+                      <td>on-going</td>
+                      <td>{ele?.catalogueId?.totalAmount}</td>
+                      <td><button>P.Invoice</button></td>
+                    </tr>
+                  </>
+                ))
+              : completedsearchData?.map((ele) => (
+                  <>
+                    <tr>
+                      <td>{ele?.catalogueId?.orderId}</td>
+                      <td>{ele.userId}</td>
+                      <td>{ele.totalPackages}</td>
+                      <td>{ele.createdAt}</td>
+                      <td>completed</td>
+                      <td>{ele?.catalogueId?.totalAmount}</td>
+                      <td>Paid</td>
+                    </tr>
+                  </>
+                ))}
           </tbody>
         </table>
       </div>
