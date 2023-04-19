@@ -7,34 +7,39 @@ import { BranchList } from "./BranchList";
 import { BranchLogin } from "./BranchLogin";
 import { useDispatch, useSelector } from "react-redux";
 import { GetBranches } from "../../../Redux/Auth/action";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 function MyVerticallyCenteredModal(props) {
   const ud = localStorage.getItem("token");
   const [branch, setBranch] = useState("");
+  const [licence, setLicence] = useState("");
+  const [gstId, setGstId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const dispatch = useDispatch();
-  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/branches";
-  const handleClick = async (e)=>{
+  const url =
+    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/branches";
+  const handleClick = async (e) => {
     e.preventDefault();
-    try{
-
-      const res = await axios.post(url,
-        {branch} ,
+    try {
+      const res = await axios.post(
+        url,
+        { branch, licence, gstId, phone, address },
         {
-         headers :{
-          Authorization:`Bearer ${ud}`,
-         }
-        } 
-      )
-      console.log(res);
+          headers: {
+            Authorization: `Bearer ${ud}`,
+          },
+        }
+      );
+      //console.log(res);
       dispatch(GetBranches());
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
-  }
+  };
   console.log(branch);
   return (
     <Modal
@@ -51,8 +56,36 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Body>
         <form onSubmit={handleClick}>
           <label>Branch</label>
-          <input type="text" onChange={(e)=>setBranch(e.target.value)} required/>
-          <button type="submit"  >Add Branch</button>
+          <input
+            type="text"
+            onChange={(e) => setBranch(e.target.value)}
+            required
+          />
+          <label>Liscence Number</label>
+          <input
+            type="text"
+            onChange={(e) => setLicence(e.target.value)}
+            required
+          />
+          <label>GST No.</label>
+          <input
+            type="text"
+            onChange={(e) => setGstId(e.target.value)}
+            required
+          />
+          <label>Phone No.</label>
+          <input
+            type="text"
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+          <label>Address</label>
+          <input
+            type="text"
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+          <button type="submit">Add Branch</button>
         </form>
       </Modal.Body>
       <Modal.Footer>
@@ -85,10 +118,10 @@ export const TotalBranch = () => {
               )
             )
           });*/
-        //  searchData = tmp;
+  //  searchData = tmp;
 
   //console.log(searchData);
-        
+
   //console.log(searchData);
   /*const HandleSearch = (e) => {
     const { value } = e.target;
@@ -138,15 +171,14 @@ export const TotalBranch = () => {
                 <td>{branchData?.licence}</td>
                 <td>{branchData?.gstId}</td>
                 <td>{branchData?.phone}</td>
-                <td>{
-                    branchData?.members?.map((ele,i)=>(
-                      <ul>
-                        <li>{ele?.firstName+" "+ele?.lastName}</li>
-                      </ul>
-                    ))
-                  
-                  }</td>
-                  <td>{branchData?.address}</td>
+                <td>
+                  {branchData?.members?.map((ele, i) => (
+                    <ul>
+                      <li>{ele?.firstName + " " + ele?.lastName}</li>
+                    </ul>
+                  ))}
+                </td>
+                <td>{branchData?.address}</td>
               </tr>
             </tbody>
           </table>
@@ -157,23 +189,21 @@ export const TotalBranch = () => {
       </Modal>
     );
   }
-  const [modalshow2, setModalShow2] = useState(false);  
+  const [modalshow2, setModalShow2] = useState(false);
 
-  const handleClick = async(id)=>{
+  const handleClick = async (id) => {
     setModalShow2(true);
     const urlbd = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/branches/${id}`;
     const token = localStorage.getItem("token");
-    try{
-      const res = await axios.get(urlbd,
-        {
-          headers:{Authorization: `Bearer ${token}`}
-        }  
-      )
+    try {
+      const res = await axios.get(urlbd, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setBranchData(res?.data?.data);
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
     }
-  }
+  };
 
   return (
     <div className={stylesfromDash.mainSection}>
@@ -188,8 +218,7 @@ export const TotalBranch = () => {
           <AiOutlineSearch className={stylesfromDash.filterSectionIconSearch} />
 
         </div>*/}
-        <button onClick={()=>setModalShow(true)}>
-          Add Branch</button>
+        <button onClick={() => setModalShow(true)}>Add Branch</button>
       </div>
       <div className={styles.branchListDiv}>
         <BranchLogin
@@ -197,7 +226,8 @@ export const TotalBranch = () => {
           HandleBranchLoginModal={HandleBranchLoginModal}
           branch={branches}
         />
-        {/*searchData?.length>0 
+        {
+          /*searchData?.length>0 
           ?
             searchData?.map((ele)=>{
               <>
@@ -209,24 +239,28 @@ export const TotalBranch = () => {
                 />
             </>            
             })
-        :*/branches?.map((ele) => (
-          <>
-            <div className={styles.BranchCont} onClick={()=>handleClick(ele?._id)}>
-              <p>{ele?.branch}</p>
-            </div>
-            {/*<BranchList
+        :*/ branches?.map((ele) => (
+            <>
+              <div
+                className={styles.BranchCont}
+                onClick={() => handleClick(ele?._id)}
+              >
+                <p>{ele?.branch}</p>
+              </div>
+              {/*<BranchList
               key={ele.id}
               data={ele}
              
             />*/}
-          </>
-        ))}
+            </>
+          ))
+        }
       </div>
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-     <MyVerticallyCenteredModal2
+      <MyVerticallyCenteredModal2
         show={modalshow2}
         onHide={() => setModalShow2(false)}
       />

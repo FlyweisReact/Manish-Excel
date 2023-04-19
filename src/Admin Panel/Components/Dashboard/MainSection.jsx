@@ -20,6 +20,9 @@ import {
   getAllProducts,
   GetBranches,
 } from "../../../Redux/Auth/action";
+import axios from "axios";
+import FileSaver from "file-saver";
+
 export const MainSection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -62,6 +65,18 @@ export const MainSection = () => {
                     )
                   });
   //console.log(searchData);
+  const urldown = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/download";
+
+
+  const getDownloads = async()=>{
+    try{
+      const res = await fetch(urldown);
+      const blob = await res.blob();
+      FileSaver.saveAs(blob,"orders.xlsx");
+    }catch(err){
+      console.log(err.message);
+    }
+  }
 
   useEffect(() => {
     dispatch(GetBranches());
@@ -71,6 +86,11 @@ export const MainSection = () => {
   const HandleModal = () => {
     setOpenModal(!OpenModal);
   };
+
+  const handleDownload = ()=>{
+    getDownloads();
+  }
+
   return (
     <div className={styles.mainSection}>
       <MainInfo />
@@ -161,7 +181,7 @@ export const MainSection = () => {
               <CiImport className={styles.filterSectionIconBtn} />
               Import
             </button>
-            <button>
+            <button onClick={handleDownload}>
               <CiExport className={styles.filterSectionIconBtn} />
               Export
             </button>

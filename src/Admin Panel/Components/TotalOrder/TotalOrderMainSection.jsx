@@ -44,7 +44,7 @@ export const TotalOrderMainSection = () => {
   const searchData = !query ? orders :
                   orders?.filter((item)=>{
                     return (
-                      item?.catalogueId.orderId?.includes(query)
+                      item?.catalogueId?.orderId?.includes(query)
                     )
                   })
 
@@ -140,17 +140,15 @@ export const TotalOrderMainSection = () => {
               </tr>
             </thead>
             <tbody>
-              {tab === "all"
-                ? searchData?.length >0 ? 
-                
+              {tab === "all" ?
                 searchData?.map((ele)=>(
                   <>
                   <tr>
-                    <td>{ele.catalogueId.orderId}</td>
-                    <td>{ele.userId}</td>
-                    <td>{ele.totalPackages}</td>
-                    <td>{ele.createdAt}</td>
-                    <td>{ele.address}</td>
+                    <td>{ele?.catalogueId?.orderId}</td>
+                    <td>{ele?.userId}</td>
+                    <td>{ele?.totalPackages}</td>
+                    <td>{ele?.createdAt}</td>
+                    <td>{ele?.address}</td>
                     {/*<td>
                       <button>Details</button>
                 </td>*/}
@@ -159,32 +157,16 @@ export const TotalOrderMainSection = () => {
                 ))
                 
                 
-                :
-                orders.map((ele) => (
+                
+                : tab === "new"?
+                 newOrder.map((ele) => (
                     <>
                       <tr>
-                        <td>{ele.catalogueId.orderId}</td>
-                        <td>{ele.userId}</td>
-                        <td>{ele.totalPackages}</td>
-                        <td>{ele.createdAt}</td>
-                        <td>{ele.address}</td>
-                       {/*<td>
-                      <button>Details</button>
-                </td>*/} <td>
-                          <button>Details</button>
-                        </td>
-                      </tr>
-                    </>
-                  ))
-                : tab === "new"
-                ? newOrder.map((ele) => (
-                    <>
-                      <tr>
-                        <td>{ele.catalogueId.orderId}</td>
-                        <td>{ele.catalogueId.name}</td>
-                        <td>{ele.totalPackages}</td>
-                        <td>{ele.createdAt}</td>
-                        <td>{ele.address}</td>
+                        <td>{ele?.catalogueId?.orderId}</td>
+                        <td>{ele?.catalogueId?.name}</td>
+                        <td>{ele?.totalPackages}</td>
+                        <td>{ele?.createdAt}</td>
+                        <td>{ele?.address}</td>
                         {/*<td>
                       <button>Details</button>
                 </td>*/}

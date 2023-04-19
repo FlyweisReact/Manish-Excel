@@ -581,6 +581,35 @@ export const SiderBar = () => {
       </Modal>
     );
   }
+  const [mdshw3, setMdshw3] = useState(false);
+
+  function MyVerticallyCenteredModal3(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Centered Modal</h4>
+          <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   return (
     <div className={styles.sidebar}>
@@ -598,7 +627,7 @@ export const SiderBar = () => {
             <p>Dashboard</p>
           </div>
         </Link>
-        <div className={styles.dropdown} onClick={() => setModalShow(true)}>
+        <div className={styles.dropdown} onClick={() => setMdshw3(true)}>
     
           <BiCurrentLocation />
           <p>Tracking</p>
@@ -683,6 +712,10 @@ export const SiderBar = () => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+      />
+      <MyVerticallyCenteredModal3
+        show={mdshw3}
+        onHide={() => setMdshw3(false)}
       />
     </div>
   );

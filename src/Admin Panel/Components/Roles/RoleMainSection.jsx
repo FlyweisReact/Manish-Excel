@@ -13,6 +13,7 @@ export const RoleMainSection = () => {
     "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin";
   const getAllAdmins = async () => {
     const token = localStorage.getItem("token");
+    console.log(token);
     try {
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
