@@ -47,40 +47,48 @@ export const SiderBar = () => {
 
   const [modalShow, setModalShow] = React.useState(false);
 
+  function MyVerticallyCenteredModal4(props) {
 
-  function MyVerticallyCenteredModal3(props) {
-
-    const [fid, setrfg] = useState();
+    const [fid, setFid] = useState();
     const [nm, setnm] = useState();
+    const [ordId, setOrdId] = useState();
+    const [pop, setPop] = useState(false);
 
-    const handleABC = (id)=>{
-      setrfg(id);
+
+    const getPopup = () => {
       setModalShow(true);
-    }
-    console.log("fid", fid);
-    const [orders, setOrders] = useState([]);
-    const urlo = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+    };
 
-    const getAllOrders = async()=>{
+    const handleABC = (id, ord_id) => {
+      console.log(id);
+      setFid(id);
+      setOrdId(ord_id);
+       getPopup();
+      // console.log(fid);
+      // setModalShow(true);
+    };
+
+    const [orders, setOrders] = useState([]);
+    const urlo =
+      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+
+    const getAllOrders = async () => {
       const token = localStorage.getItem("token");
-      try{
-        const res = await axios.get(urlo,
-          {
-            headers:{Authorization:`Bearer ${token}`}
-          }
-        )
+      try {
+        const res = await axios.get(urlo, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrders(res?.data?.data);
-      }catch(err){
+      } catch (err) {
         console.log(err.message);
       }
-    }
-    useEffect(()=>{
+    };
+    useEffect(() => {
       getAllOrders();
-    },[])
-   // console.log(orderTrack);
+    }, []);
+    // console.log(orderTrack);
 
-   /* function MyVerticallyCenteredModal(props) {
-
+    function MyVerticallyCenteredModal(props) {
       const [tab, setTab] = useState("delivery");
       const [openMod, setOpenMod] = useState(false);
       const [message, setMessage] = useState("");
@@ -94,31 +102,31 @@ export const SiderBar = () => {
 
       const [ide, setide] = useState();
 
-      const getOrderTrackById = async()=>{
+      const getOrderTrackById = async () => {
         const token = localStorage.getItem("token");
-      //  console.log(fid);
-        const urlot = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orderTrackings/?order_id=${686844654}`;
+        //  console.log(fid);
+        const urlot = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orderTrackings/?order_id=${686844604}`;
 
-        try{
-          const res = await axios.get(urlot,
-            {
-              headers:{Authorization:`Bearer ${token}`}
-            }
-          )
+        try {
+          const res = await axios.get(urlot, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setOrderTrack(res?.data?.data);
           setOrderId(res?.data?.data?.[0]?.orderId);
-        }catch(err){
+        } catch (err) {
           console.log(err.message);
         }
-      }
-  
-      useEffect(()=>{
-        if(modalShow) getOrderTrackById(); 
-      },[])
+      };
 
-  
+      useEffect(() => {
+        if (modalShow){
+          getOrderTrackById();
+          console.log("fid", fid);
+        }
+      }, []);
+
       const [mdshow, setMdShow] = useState(false);
-  
+
       function MyVerticallyCenteredModal2(props) {
         const [date, setDate] = useState("");
         const [city, setCity] = useState("");
@@ -126,32 +134,34 @@ export const SiderBar = () => {
         const [state, setState] = useState("");
         const [orderId2, setOrderId] = useState();
         const message = "order dispatched";
-       // const orderId = "641054b067637f9bc3ec0ab3";
-  
-        const urld = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/orderTrackings";
-  
-        const handleSubmit = async(e)=>{
+        // const orderId = "641054b067637f9bc3ec0ab3";
+
+        const urld =
+          "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/orderTrackings";
+
+        const handleSubmit = async (e) => {
           e.preventDefault();
           const token = localStorage.getItem("token");
-        //  console.log(orderId2);
-          try{
-            console.log(orderId2, date,time,city,state, message);
-            const res = await axios.post(urld,
-              {orderId : orderId2,date,time,city,state,message},
+          //  console.log(orderId2);
+          try {
+            console.log(orderId2, date, time, city, state, message);
+            const res = await axios.post(
+              urld,
+              { orderId: orderId2, date, time, city, state, message },
               {
-                headers:{Authorization:`Bearer ${token}`}
+                headers: { Authorization: `Bearer ${token}` },
               }
-            )
-         //   console.log(res?.data);
+            );
+            //   console.log(res?.data);
             getOrderTrackById();
-          }catch(err){
+          } catch (err) {
             console.log(err.message);
           }
-        }
+        };
 
-        useEffect(()=>{
+        useEffect(() => {
           setOrderId(orderId);
-        },[])
+        }, []);
 
         return (
           <Modal
@@ -168,20 +178,29 @@ export const SiderBar = () => {
             <Modal.Body>
               <div className="orderform">
                 <form onSubmit={handleSubmit}>
-                  
-                      <label for="name">Date</label>
-                      <input type="text" onChange={(e)=>setDate(e.target.value)}/>
-                   
-                      <label for="name">Time</label>
-                      <input type="text" onChange={(e)=>setTime(e.target.value)}/>
-                      <label for="name">City</label>
-                      <input type="text" onChange={(e)=>setCity(e.target.value)}/>
-                
-                  
-                      <label>State</label>
-                      <input type="text" onChange={(e)=>setState(e.target.value)}/>
-                      <button>Submit </button>
-  
+                  <label for="name">Date</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+
+                  <label for="name">Time</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                  <label for="name">City</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+
+                  <label>State</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setState(e.target.value)}
+                  />
+                  <button>Submit </button>
                 </form>
               </div>
             </Modal.Body>
@@ -191,7 +210,7 @@ export const SiderBar = () => {
           </Modal>
         );
       }
-  
+
       return (
         <Modal
           {...props}
@@ -205,7 +224,7 @@ export const SiderBar = () => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div >
+            <div>
               <div className={styles.ModalMainDiv}>
                 <div className={styles.ModalTitleDiv}>
                   <p>Order Status</p>
@@ -225,9 +244,10 @@ export const SiderBar = () => {
                         Delivery Status
                       </div>
                       <div
-                        onClick={() => {setTab("customer")
-                                setOrderId(orderId)
-                      }}
+                        onClick={() => {
+                          setTab("customer");
+                          setOrderId(orderId);
+                        }}
                         className={tab === "customer" && styless.active}
                       >
                         Update Status
@@ -235,34 +255,45 @@ export const SiderBar = () => {
                     </div>
                     {tab === "delivery" ? (
                       <>
-                          {console.log(orderTrack)}
-                          <div className="orderTracktopcont" 
-                            style={{marginTop:"5%", marginLeft:"20%"}}
-                          >
-                            <p>Dispatch Date : {orderTrack?.[0]?.date}</p>
-                            <p>Order Id : {orderTrack?.[0]?.order_id}</p>
-                            <p>Status As On Today : Arrived At {orderTrack?.[orderTrack.length-1]?.city}</p>
-                          </div>
-                          {orderTrack?.map((ele, i) => (
-                            <>
-                              <div className={styless.Ordercont}>
-                              <div className={styless.orderitm}>{ele?.date}</div>
+                        {console.log(orderTrack)}
+                        <div
+                          className="orderTracktopcont"
+                          style={{ marginTop: "5%", marginLeft: "20%" }}
+                        >
+                          <p>Dispatch Date : {orderTrack?.[0]?.date}</p>
+                          <p>Order Id : {orderTrack?.[0]?.order_id}</p>
+                          <p>
+                            Status As On Today : Arrived At{" "}
+                            {orderTrack?.[orderTrack.length - 1]?.city}
+                          </p>
+                        </div>
+                        {orderTrack?.map((ele, i) => (
+                          <>
+                            <div className={styless.Ordercont}>
+                              <div className={styless.orderitm}>
+                                {ele?.date}
+                              </div>
                               <div>
-                              <div className={styless.StatusTrackSecondDiv}>
+                                <div className={styless.StatusTrackSecondDiv}>
                                   <div
-                                    className={styless.StatusTrackSecondDivIcons}
+                                    className={
+                                      styless.StatusTrackSecondDivIcons
+                                    }
                                   >
                                     <GrNotes size={25} />
                                   </div>
                                   <p>{props.track}</p>
                                 </div>
                               </div>
-                              <div className={styless.orderitm}>{ele?.city}</div>
-                              <div className={styless.orderitm}>{ele?.state}</div>
+                              <div className={styless.orderitm}>
+                                {ele?.city}
                               </div>
-                            </>
-                          ))}
-
+                              <div className={styless.orderitm}>
+                                {ele?.state}
+                              </div>
+                            </div>
+                          </>
+                        ))}
                       </>
                     ) : (
                       <div className={styless.customerSection}>
@@ -271,21 +302,18 @@ export const SiderBar = () => {
                             OpenModal={openMod}
                             HandleModal={HandleStatusUpdateModal}
                           />
-                          <button onClick={()=>setMdShow(true)}>
+                          <button onClick={() => setMdShow(true)}>
                             Update Status
                           </button>
                         </div>
-                 
-                        <MyVerticallyCenteredModal2
-        show={mdshow}
-        onHide={() => setMdShow(false)}
-      />
 
+                        <MyVerticallyCenteredModal2
+                          show={mdshow}
+                          onHide={() => setMdShow(false)}
+                        />
                       </div>
-  
                     )}
                   </div>
-       
                 </div>
               </div>
             </div>
@@ -295,16 +323,14 @@ export const SiderBar = () => {
           </Modal.Footer>
         </Modal>
       );
-    }*/
+    }
 
     const [query, setQuery] = useState("");
-    const searchData = !query? orders :
-                    orders?.filter((item)=>{
-                      return item?.catalogueId?.orderId?.includes(query)
-                    })
-
-
-
+    const searchData = !query
+      ? orders
+      : orders?.filter((item) => {
+          return item?.catalogueId?.orderId?.includes(query);
+        });
 
 
 
@@ -322,11 +348,18 @@ export const SiderBar = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="trackordercont">
-            <input type="text" style={{width:"60%", marginLeft:"3%",height:"40px", borderRadius:"4px"}}
+            <input
+              type="text"
+              style={{
+                width: "60%",
+                marginLeft: "3%",
+                height: "40px",
+                borderRadius: "4px",
+              }}
               placeholder="search by order id"
-              onChange={(e)=>setQuery(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
             />
-            <table style={{width:"100%"}}>
+            <table style={{ width: "100%" }}>
               <thead>
                 <tr>
                   <th>Order Id</th>
@@ -336,253 +369,37 @@ export const SiderBar = () => {
                 </tr>
               </thead>
               <tbody>
-                {
-                  searchData?.map((ele,i)=>(
-                    <tr>
-                      <td>{ele?.catalogueId?.orderId}</td>
-                      <td>{ele?._id}</td>
-                      <td>{ele?.createdAt}</td>
-                      <td><button onClick={()=>handleABC(ele?.catalogueId?.orderId)}>Track</button></td>
-                    </tr>
-                  ))
-                }
+                {searchData?.map((ele, i) => (
+                  <tr>
+                    <td>{ele?.catalogueId?.orderId}</td>
+                    <td>{ele?._id}</td>
+                    <td>{ele?.createdAt}</td>
+                    <td>
+                      <button
+                        onClick={() => handleABC(ele?.catalogueId?.orderId, ele?._id)}
+                      >
+                        Track
+                      </button>
+                    </td>
+
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-          
-<MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+
+          <MyVerticallyCenteredModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     );
-
-    function MyVerticallyCenteredModal(props) {
-
-      const [tab, setTab] = useState("delivery");
-      const [openMod, setOpenMod] = useState(false);
-      const [message, setMessage] = useState("");
-      const [date, setDate] = useState("");
-      const [time, setTime] = useState("");
-      const HandleStatusUpdateModal = () => {
-        setOpenMod(!openMod);
-      };
-      const [orderTrack, setOrderTrack] = useState([]);
-      const [orderId, setOrderId] = useState();
-  
-      const [ide, setide] = useState();
-  
-      const getOrderTrackById = async()=>{
-        const token = localStorage.getItem("token");
-      //  console.log(fid);
-        const urlot = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orderTrackings/?order_id=${686844604}`;
-  
-        try{
-          const res = await axios.get(urlot,
-            {
-              headers:{Authorization:`Bearer ${token}`}
-            }
-          )
-          setOrderTrack(res?.data?.data);
-          setOrderId(res?.data?.data?.[0]?.orderId);
-        }catch(err){
-          console.log(err.message);
-        }
-      }
-  
-      useEffect(()=>{
-        if(modalShow) getOrderTrackById(); 
-      },[])
-  
-  
-      const [mdshow, setMdShow] = useState(false);
-  
-      function MyVerticallyCenteredModal2(props) {
-        const [date, setDate] = useState("");
-        const [city, setCity] = useState("");
-        const [time, setTime] = useState("");
-        const [state, setState] = useState("");
-        const [orderId2, setOrderId] = useState();
-        const message = "order dispatched";
-       // const orderId = "641054b067637f9bc3ec0ab3";
-  
-        const urld = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/orderTrackings";
-  
-        const handleSubmit = async(e)=>{
-          e.preventDefault();
-          const token = localStorage.getItem("token");
-        //  console.log(orderId2);
-          try{
-            console.log(orderId2, date,time,city,state, message);
-            const res = await axios.post(urld,
-              {orderId : orderId2,date,time,city,state,message},
-              {
-                headers:{Authorization:`Bearer ${token}`}
-              }
-            )
-         //   console.log(res?.data);
-            getOrderTrackById();
-          }catch(err){
-            console.log(err.message);
-          }
-        }
-  
-        useEffect(()=>{
-          setOrderId(orderId);
-        },[])
-  
-        return (
-          <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
-                Modal heading
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="orderform">
-                <form onSubmit={handleSubmit}>
-                  
-                      <label for="name">Date</label>
-                      <input type="text" onChange={(e)=>setDate(e.target.value)}/>
-                   
-                      <label for="name">Time</label>
-                      <input type="text" onChange={(e)=>setTime(e.target.value)}/>
-                      <label for="name">City</label>
-                      <input type="text" onChange={(e)=>setCity(e.target.value)}/>
-                
-                  
-                      <label>State</label>
-                      <input type="text" onChange={(e)=>setState(e.target.value)}/>
-                      <button>Submit </button>
-  
-                </form>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={props.onHide}>Close</Button>
-            </Modal.Footer>
-          </Modal>
-        );
-      }
-  
-      return (
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Modal heading
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div >
-              <div className={styles.ModalMainDiv}>
-                <div className={styles.ModalTitleDiv}>
-                  <p>Order Status</p>
-                  <MdOutlineClose
-                    onClick={HandleModal}
-                    size={35}
-                    className={styles.CloseICon}
-                  />
-                </div>
-                <div className={styles.Main}>
-                  <div className={styles.MainFirstDiv}>
-                    <div className={styles.TabTitle}>
-                      <div
-                        onClick={() => setTab("delivery")}
-                        className={tab === "delivery" && styless.active}
-                      >
-                        Delivery Status
-                      </div>
-                      <div
-                        onClick={() => {setTab("customer")
-                                setOrderId(orderId)
-                      }}
-                        className={tab === "customer" && styless.active}
-                      >
-                        Update Status
-                      </div>
-                    </div>
-                    {tab === "delivery" ? (
-                      <>
-                          {console.log(orderTrack)}
-                          <div className="orderTracktopcont" 
-                            style={{marginTop:"5%", marginLeft:"20%"}}
-                          >
-                            <p>Dispatch Date : {orderTrack?.[0]?.date}</p>
-                            <p>Order Id : {orderTrack?.[0]?.order_id}</p>
-                            <p>Status As On Today : Arrived At {orderTrack?.[orderTrack.length-1]?.city}</p>
-                          </div>
-                          {orderTrack?.map((ele, i) => (
-                            <>
-                              <div className={styless.Ordercont}>
-                              <div className={styless.orderitm}>{ele?.date}</div>
-                              <div>
-                              <div className={styless.StatusTrackSecondDiv}>
-                                  <div
-                                    className={styless.StatusTrackSecondDivIcons}
-                                  >
-                                    <GrNotes size={25} />
-                                  </div>
-                                  <p>{props.track}</p>
-                                </div>
-                              </div>
-                              <div className={styless.orderitm}>{ele?.city}</div>
-                              <div className={styless.orderitm}>{ele?.state}</div>
-                              </div>
-                            </>
-                          ))}
-  
-                      </>
-                    ) : (
-                      <div className={styless.customerSection}>
-                        <div className={styless.customerSectionBtn}>
-                          <OrderUpdateStatusModal
-                            OpenModal={openMod}
-                            HandleModal={HandleStatusUpdateModal}
-                          />
-                          <button onClick={()=>setMdShow(true)}>
-                            Update Status
-                          </button>
-                        </div>
-                 
-                        <MyVerticallyCenteredModal2
-                          show={mdshow}
-                          onHide={() => setMdShow(false)}
-                        />
-  
-                      </div>
-  
-                    )}
-                  </div>
-       
-                </div>
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={props.onHide}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      );
-    }
-
   }
   const [mdshw3, setMdShw3] = React.useState(false);
-
-  
 
   return (
     <div className={styles.sidebar}>
@@ -600,10 +417,10 @@ export const SiderBar = () => {
             <p>Dashboard</p>
           </div>
         </Link>
-        <div className={styles.dropdown} onClick={() => setMdShw3(true)}>
+        <div className={styles.dropdown} onClick={() => navigate("/order-track2")}>
           <OrderStatusModal OpenModal={OpenModal} HandleModal={HandleModal} />
           <BiCurrentLocation />
-          <p >Tracking</p>
+          <p>Tracking</p>
           <FiChevronDown
             onClick={() => {
               setShowDropDown(!showDropdown);
@@ -639,10 +456,10 @@ export const SiderBar = () => {
           </div>
         </Link>
         <Link to="/notification">
-        <div>
-          <AiOutlineMessage />
-          <p>SMS Notification</p>
-        </div>
+          <div>
+            <AiOutlineMessage />
+            <p>SMS Notification</p>
+          </div>
         </Link>
         <Link to={"/help"}>
           <div>
@@ -685,7 +502,7 @@ export const SiderBar = () => {
           <p>Logout</p>
         </div>
       </div>
-      <MyVerticallyCenteredModal3
+      <MyVerticallyCenteredModal4
         show={mdshw3}
         onHide={() => setMdShw3(false)}
       />

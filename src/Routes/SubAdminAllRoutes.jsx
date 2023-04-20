@@ -14,6 +14,7 @@ import { SubAdminRoles } from "../Sub Admin Panel/Pages/SubAdminRoles";
 import { SubAdminTermAndCondition } from "../Sub Admin Panel/Pages/SubAdminTermAndCondition";
 import { SubAdminTotalCustomer } from "../Sub Admin Panel/Pages/SubAdminTotalCustomer";
 import { SubAdminTotalProducts } from "../Sub Admin Panel/Pages/SubAdminTotalProducts";
+import SubOrderTrack2 from "../Sub Admin Panel/Pages/SubAdminOrderTrack";
 
 export const SubAdminAllRoutes = () => {
   return (
@@ -44,6 +45,7 @@ export const SubAdminAllRoutes = () => {
       />
       <Route path="/new-invoice" element={<Invoice />} />
       <Route path="/invoice-details" element={<InvoiceDetails />} />
+      <Route path="/suborder-track2" element={<SubOrderTrack2 />} />
     </Routes>
   );
 };

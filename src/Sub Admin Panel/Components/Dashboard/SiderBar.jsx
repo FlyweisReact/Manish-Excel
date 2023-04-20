@@ -627,7 +627,7 @@ export const SiderBar = () => {
             <p>Dashboard</p>
           </div>
         </Link>
-        <div className={styles.dropdown} onClick={() => setMdshw3(true)}>
+        <div className={styles.dropdown} onClick={() => navigate("/suborder-track2")}>
     
           <BiCurrentLocation />
           <p>Tracking</p>
