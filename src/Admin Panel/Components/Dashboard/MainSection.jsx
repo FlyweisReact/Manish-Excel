@@ -46,12 +46,12 @@ export const MainSection = () => {
   const [query, setQuery] = useState("");
 
 
-  const searchData = !query ? ongoingOrders :
-                  orders?.filter((item)=>{
-                    return (
-                      item?.catalogueId?.orderId?.includes(query)
-                    )
-                  });
+  const searchData = !query
+    ? orders
+    : orders?.filter((item) => {
+        return           item?.customerId?.includes(query) ||
+          item?.orderId?.includes(query);
+      });
   const ongoingsearchData = !query ? ongoingOrders :
                   ongoingOrders?.filter((item)=>{
                     return (
@@ -189,24 +189,13 @@ export const MainSection = () => {
         </div>
         <table>
           <thead>
-            <tr>
-              <th>
-                Order Id <AiFillCaretDown />
-              </th>
-              <th>
-                Customer Id <AiFillCaretDown />
-              </th>
-              <th>
-                Package <AiFillCaretDown />
-              </th>
-              <th>
-                Order Date <AiFillCaretDown />
-              </th>
-              {/*<th>
-                Status <AiFillCaretDown />
-  </th>*/}
+          <tr>
+              <th>Patient Name</th>
+              <th>Order Id</th>
+              <th>Patient Id</th>
+              <th>Order Date</th>
               <th>Total Amount</th>
-              <th>Location</th>
+              <th>Total Packages</th>
             </tr>
           </thead>
           <tbody>
@@ -214,16 +203,15 @@ export const MainSection = () => {
               ? 
                 searchData?.map((ele)=>(
                   <>
-                    <tr>
-                      <td>{ele?.catalogueId?.orderId}</td>
-                      <td>{ele.userId}</td>
-                      <td>{ele.totalPackages}</td>
-                      <td>{ele.createdAt}</td>
-                      <td>
-                        {ele?.catalogueId?.totalAmount}
-                      </td>
-                      <td>{ele.address}</td>
-                    </tr>
+              <tr>
+                <td>{ele?.name}</td>
+                <td>{ele?.catalogueId?.orderId? ele?.catalogueId?.orderId : ele?.orderId}</td>
+                <td>{ele?.customerId}</td>
+                <td>{ele?.createdAt}</td>
+                <td>{ele?.totalAmount}</td>
+                <td>{ele?.totalPackages}
+              </td>
+              </tr>
                   </>              
                 ))
               
@@ -231,16 +219,15 @@ export const MainSection = () => {
               : tab === "ongoing" ?
                   ongoingsearchData?.map((ele,i)=>(
                     <>
-                    <tr>
-                      <td>{ele?.catalogueId?.orderId}</td>
-                        <td>{ele.userId}</td>
-                        <td>{ele.totalPackages}</td>
-                        <td>{ele.createdAt}</td>
-                        <td>
-                          {ele?.catalogueId?.totalAmount}
-                        </td>
-                        <td>{ele.address}</td>
-                    </tr>
+              <tr>
+                <td>{ele?.name}</td>
+                <td>{ele?.catalogueId?.orderId? ele?.catalogueId?.orderId : ele?.orderId}</td>
+                <td>{ele?.customerId}</td>
+                <td>{ele?.createdAt}</td>
+                <td>{ele?.totalAmount}</td>
+                <td>{ele?.totalPackages}
+              </td>
+              </tr>
                   </>                
                   ))
                
@@ -248,16 +235,15 @@ export const MainSection = () => {
                 
               completedsearchData?.map((ele,i)=>(
                 <>
-                <tr>
-                  <td>{ele?.catalogueId?.orderId}</td>
-                      <td>{ele.userId}</td>
-                      <td>{ele.totalPackages}</td>
-                      <td>{ele.createdAt}</td>
-                      <td>
-                        {ele?.catalogueId?.totalAmount}
-                      </td>
-                    <td>{ele.address}</td>
-                </tr>
+              <tr>
+                <td>{ele?.name}</td>
+                <td>{ele?.catalogueId?.orderId? ele?.catalogueId?.orderId : ele?.orderId}</td>
+                <td>{ele?.customerId}</td>
+                <td>{ele?.createdAt}</td>
+                <td>{ele?.totalAmount}</td>
+                <td>{ele?.totalPackages}
+              </td>
+              </tr>
               </>         
               ))
               

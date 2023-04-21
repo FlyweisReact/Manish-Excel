@@ -111,7 +111,7 @@ const OrderTrack2 = () => {
         const orderId4 = orderId2 === undefined ? orderId3 : orderId2;
 
         try {
-        //  console.log(orderId4, date, time, city, state, message);
+            console.log(orderId4, date, time, city, state, message);
           const res = await axios.post(
             urld,
             { orderId: orderId4, date, time, city, state, message },
@@ -131,7 +131,7 @@ const OrderTrack2 = () => {
         setOrderId3(ordId);
       }, []);
 
-    //  console.log(orderId2, orderId3);
+        console.log(orderId2, orderId3);
 
       return (
         <Modal
@@ -266,31 +266,49 @@ const OrderTrack2 = () => {
   }
 
   const [modalShow, setModalShow] = React.useState(false);
+  const [query, setQuery] = useState("");
+
+  const searchOrders = !query ? orders :
+        orders?.filter((item)=>{
+          return item?.orderId?.includes(query)
+        })
 
   return (
     <div className={styles.main}>
       <SiderBar />
       <div className={styles.mainSection}>
         <MainInfo />
+        <div
+          className="orderTracksearch"
+          style={{ margin: "4%", width: "80%" }}
+        >
+          <input type="text" placeholder="search by order id" 
+            onChange={(e)=>setQuery(e.target.value)}
+          />
+        </div>
         <table style={{ width: "90%", margin: "40px" }}>
           <thead>
             <tr>
+              <th>Patient Name</th>
               <th>Order Id</th>
-              <th>Customer Id</th>
+              <th>Patient Id</th>
               <th>Order Date</th>
+              <th>Total Amount</th>
               <th>Track</th>
             </tr>
           </thead>
           <tbody>
-            {orders?.map((ele, i) => (
+            {searchOrders?.map((ele, i) => (
               <tr>
-                <td>{ele?.catalogueId?.orderId}</td>
-                <td>{ele?._id}</td>
+                <td>{ele?.name}</td>
+                <td>{ele?.orderId}</td>
+                <td>{ele?.customerId}</td>
                 <td>{ele?.createdAt}</td>
+                <td>{ele?.totalAmount}</td>
                 <td>
                   <button
                     onClick={() =>
-                      handleClick(ele?.catalogueId?.orderId, ele?._id)
+                      handleClick(ele?.orderId, ele?._id)
                     }
                   >
                     Track

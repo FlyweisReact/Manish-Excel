@@ -33,7 +33,7 @@ export const TotalCustomerMainSection = () => {
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      //console.log(res?.data?.data?.data);
+      console.log(res?.data?.data?.data);
       setCustomers(res?.data?.data?.data);
     } catch (err) {
       console.log(err.message);

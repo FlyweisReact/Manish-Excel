@@ -8,9 +8,16 @@ import { BsFilterLeft } from "react-icons/bs";
 import { FiFilter } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrders } from "../../../Redux/Auth/action";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+
 export const TotalOrderMainSection = () => {
   const [tab, setTab] = useState("all");
   const orders = useSelector((state) => state.AuthReducer.orders);
+  const navigate = useNavigate();
   //console.log(orders);
   const [order, setOrder] = useState([]);
   const dispatch = useDispatch();
@@ -36,17 +43,17 @@ export const TotalOrderMainSection = () => {
   ];
 
   let newOrder = [];
-  if(orders?.length<=3) newOrder = orders;
-  else newOrder = orders?.slice(0,3);
- // const [searchData, setSearchData] = useState([]);
+  if (orders?.length <= 3) newOrder = orders;
+  else newOrder = orders?.slice(0, 3);
+  // const [searchData, setSearchData] = useState([]);
   const [query, setQuery] = useState();
 
-  const searchData = !query ? orders :
-                  orders?.filter((item)=>{
-                    return (
-                      item?.catalogueId?.orderId?.includes(query)
-                    )
-                  })
+  const searchData = !query
+    ? orders
+    : orders?.filter((item) => {
+        return           item?.customerId?.includes(query) ||
+          item?.orderId?.includes(query);
+      });
 
   /*const HandleSearch = (e) => {
     const { value } = e.target;
@@ -65,6 +72,136 @@ export const TotalOrderMainSection = () => {
     //console.log(searchData);
   };*/
 
+  const [modalShow, setModalShow] = React.useState(false);
+
+  function MyVerticallyCenteredModal(props) {
+    const ud = localStorage.getItem("token");
+    //const [branch, setBranch] = useState("");
+    const [name, setName] = useState("");
+    const [customerId, setCid] = useState("");
+    const [order_id, setOid] = useState("");
+    const [orderType, setOtype] = useState("");
+    const [orderDate, setDate] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [totalAmount, setTamt] = useState("");
+    const [totalPackages, setTpack] = useState("");
+
+    //const dispatch = useDispatch();
+    const urla =
+      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/order-add";
+    const handleClick = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post(
+          urla,
+          {
+            name,
+            customerId,
+            order_id,
+            orderType,
+            orderDate,
+            city,
+            state,
+            totalAmount,
+            totalPackages,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${ud}`,
+            },
+          }
+        );
+        console.log(res?.data);
+        navigate("/totalorders");
+        getAllOrders();
+        //  dispatch(GetBranches());
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    //console.log(branch);
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleClick}>
+            <label>Patient Name</label>
+            <input
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <label>Patient Id</label>
+            <input
+              type="text"
+              onChange={(e) => setCid(e.target.value)}
+              required
+            />
+            <label>Order Id</label>
+            <input
+              type="text"
+              onChange={(e) => setOid(e.target.value)}
+              required
+            />
+            <label>Patient Order Type</label>
+            <input
+              type="text"
+              onChange={(e) => setOtype(e.target.value)}
+              placeholder="9999...."
+              required
+            />
+
+            <label>Order Date</label>
+            <input
+              type="date"
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+            <label>city</label>
+            <input
+              type="text"
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+            <label>state</label>
+            <input
+              type="text"
+              onChange={(e) => setState(e.target.value)}
+              required
+            />
+            <label>Invoice Amount</label>
+            <input
+              type="text"
+              onChange={(e) => setTamt(e.target.value)}
+              required
+            />
+            <label>Total Number of Boxes</label>
+            <input
+              type="text"
+              onChange={(e) => setTpack(e.target.value)}
+              required
+            />
+
+            <button type="submit">Add Order</button>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   return (
     <div className={stylesfromDash.mainSection}>
       <MainInfo />
@@ -73,10 +210,14 @@ export const TotalOrderMainSection = () => {
         <div className={styles.mainOrder}>
           <p>Order's Details</p>
         </div>
+        <div className={styles.mainOrder}>
+          <button onClick={() => setModalShow(true)}>Create Order</button>
+        </div>
         <div className={styles.TabTitle}>
           <div
             onClick={() => setTab("all")}
             className={tab === "all" && styles.active}
+            style={{marginBottom:"3%",height:"40px"}}
           >
             All Orders
           </div>
@@ -104,8 +245,10 @@ export const TotalOrderMainSection = () => {
           <div>
             <div>
               <AiOutlineSearch className={styles.filterSectionIconSearch} />
-              <input type="text" placeholder="Search by order Id,Customer Id"  
-                onChange={(e)=>setQuery(e.target.value)}
+              <input
+                type="text"
+                placeholder="Search by order Id, patient Id"
+                onChange={(e) => setQuery(e.target.value)}
               />
             </div>
           </div>
@@ -125,41 +268,32 @@ export const TotalOrderMainSection = () => {
         <div className={styles.MainTableDiv}>
           <table>
             <thead>
-              <tr>
-                <th>
-                  Order Id <AiFillCaretDown />
-                </th>
-                <th>
-                  Customer Id <AiFillCaretDown />
-                </th>
-                <th>
-                  Package <AiFillCaretDown />
-                </th>
-                <th>Order Date</th>
-                <th>Location</th>
-              </tr>
+            <tr>
+              <th>Patient Name</th>
+              <th>Order Id</th>
+              <th>Patient Id</th>
+              <th>Order Date</th>
+              <th>Total Amount</th>
+              <th>Total Packages</th>
+            </tr>
             </thead>
             <tbody>
-              {tab === "all" ?
-                searchData?.map((ele)=>(
-                  <>
-                  <tr>
-                    <td>{ele?.catalogueId?.orderId}</td>
-                    <td>{ele?.userId}</td>
-                    <td>{ele?.totalPackages}</td>
-                    <td>{ele?.createdAt}</td>
-                    <td>{ele?.address}</td>
-                    {/*<td>
-                      <button>Details</button>
-                </td>*/}
-                  </tr>
-                </>                
-                ))
-                
-                
-                
-                : tab === "new"?
-                 newOrder.map((ele) => (
+              {tab === "all"
+                ? searchData?.map((ele) => (
+                    <>
+              <tr>
+                <td>{ele?.name}</td>
+                <td>{ele?.catalogueId?.orderId? ele?.catalogueId?.orderId : ele?.orderId}</td>
+                <td>{ele?.customerId}</td>
+                <td>{ele?.createdAt}</td>
+                <td>{ele?.totalAmount}</td>
+                <td>{ele?.totalPackages}
+              </td>
+              </tr>
+                    </>
+                  ))
+                : tab === "new"
+                ? newOrder.map((ele) => (
                     <>
                       <tr>
                         <td>{ele?.catalogueId?.orderId}</td>
@@ -191,6 +325,10 @@ export const TotalOrderMainSection = () => {
           </table>
         </div>
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };
