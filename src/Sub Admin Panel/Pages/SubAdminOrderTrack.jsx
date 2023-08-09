@@ -25,7 +25,7 @@ import { OrderUpdateStatusModal } from "../Components/Dashboard/OrderUpdateStatu
 const SubOrderTrack2 = () => {
   const [orders, setOrders] = useState([]);
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/orders";
 
   const getAllOrders = async () => {
     const token = localStorage.getItem("token");
@@ -68,7 +68,7 @@ const SubOrderTrack2 = () => {
       const token = localStorage.getItem("token");
       //  console.log(fid);
       console.log(id);
-      const urlot = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orderTrackings/?order_id=${id}`;
+      const urlot = `https://mr-manish-xcell-backend.vercel.app/api/v1/orderTrackings/?order_id=${id}`;
 
       try {
         const res = await axios.get(urlot, {
@@ -102,7 +102,7 @@ const SubOrderTrack2 = () => {
       // const orderId = "641054b067637f9bc3ec0ab3";
 
       const urld =
-        "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/orderTrackings";
+        "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/orderTrackings";
 
       const handleSubmit = async (e) => {
         e.preventDefault();

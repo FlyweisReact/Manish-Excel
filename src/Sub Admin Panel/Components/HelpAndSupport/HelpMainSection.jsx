@@ -16,7 +16,7 @@ export const HelpMainSection = () => {
   const [hid, setHid] = useState("");
 
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/support-tickets";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/support-tickets";
   const getHelp = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -40,7 +40,7 @@ export const HelpMainSection = () => {
   }, []);
 
   const handleDelete = async (hid)=>{
-    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/support-tickets/${hid}`;
+    const urld = `https://mr-manish-xcell-backend.vercel.app/api/v1/support-tickets/${hid}`;
     const token = localStorage.getItem("token");
     try{
       const res = await axios.delete(urld, 
@@ -60,7 +60,7 @@ export const HelpMainSection = () => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     //const dispatch = useDispatch();
-    const urlx = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/support-tickets";
+    const urlx = "https://mr-manish-xcell-backend.vercel.app/dev/api/v1/support-tickets";
     const handleClick = async (e)=>{
       e.preventDefault();
       try{

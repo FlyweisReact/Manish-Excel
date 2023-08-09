@@ -21,7 +21,7 @@ function MyVerticallyCenteredModal(props) {
   const image = "https://i.mydramalist.com/R6W7x_5f.jpg";
   //console.log(image, productId, productName, stock, quantity, price);
   const dispatch = useDispatch();
-  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products";
+  const url = "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/products";
   const handleClick = async (e)=>{
     e.preventDefault();
     try{
@@ -36,6 +36,7 @@ function MyVerticallyCenteredModal(props) {
       )
       console.log(res?.data);
       dispatch(getAllProducts());
+      props.onHide();
     }catch(err){
       console.log(err.message);
     }
@@ -117,7 +118,7 @@ export const TotalProductMainSection = () => {
 
   const handleDelete = async (id)=>{
     const token = localStorage.getItem("token");
-    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products/${id}`;
+    const urld = `https://mr-manish-xcell-backend.vercel.app/api/v1/admin/products/${id}`;
     try{
       const res = await axios.delete(urld,
        {
@@ -137,7 +138,7 @@ export const TotalProductMainSection = () => {
       <div className={stylesfromDash.mainOrderSection}>
         <div className={styles.TitleSection}>
           <h1 className={stylesfromDash.Title}>
-            Total Products({products.length})
+            Total Products({products?.length})
           </h1>
           <button onClick={setModalShow}>Add Products</button>
         </div>

@@ -13,7 +13,7 @@ export const TotalProductMainSection = () => {
   const [tab, setTab] = useState("all");
   const [product, setProduct] = useState([]);
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/products";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/products";
   const token = localStorage.getItem("token");
 
   const getAllProducts = async () => {
@@ -43,7 +43,7 @@ export const TotalProductMainSection = () => {
     //console.log(image, productId, productName, stock, quantity, price);
     // const dispatch = useDispatch();
     const urla =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/products";
     const handleClick = async (e) => {
       e.preventDefault();
       try {
@@ -135,7 +135,7 @@ export const TotalProductMainSection = () => {
 
   const handleDelete = async (id) => {
     console.log(id);
-    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/products/${id}`;
+    const urld = `https://mr-manish-xcell-backend.vercel.app/api/v1/admin/products/${id}`;
     const token = localStorage.getItem("token");
     try {
       const res = await axios.delete(urld, {

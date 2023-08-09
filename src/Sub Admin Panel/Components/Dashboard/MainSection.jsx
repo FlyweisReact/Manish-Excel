@@ -17,7 +17,7 @@ export const MainSection = () => {
   const [OpenModal, setOpenModal] = useState(false);
   const [orders, setOrders] = useState([]);
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/orders";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/orders";
   const getAllOrders = async () => {
     const token = localStorage.getItem("token");
     try {

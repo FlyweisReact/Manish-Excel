@@ -14,7 +14,7 @@ export const ReportMainSection = () => {
   const [tab, setTab] = useState("all");
   const [barData, setBarData] = useState([]);
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/countorders";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/countorders";
 
   const getBarData = async () => {
     const token = localStorage.getItem("token");

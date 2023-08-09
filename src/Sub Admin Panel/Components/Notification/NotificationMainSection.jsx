@@ -16,7 +16,7 @@ export const NotificationMainSection = () => {
   const [OpenModal, setOpenModal] = useState(false);
   const [not, setNot] = useState([]);
 
-  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/notifications/";
+  const url = "https://mr-manish-xcell-backend.vercel.app/api/v1/notifications/";
 
   const getNotifications = async()=>{
     const token = localStorage.getItem("token");
@@ -51,7 +51,7 @@ export const NotificationMainSection = () => {
     //console.log(image, productId, productName, stock, quantity, price);
     // const dispatch = useDispatch();
     const urla =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/notifications/";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/notifications/";
     const handleClick = async (e) => {
       e.preventDefault();
       try {
@@ -116,7 +116,7 @@ export const NotificationMainSection = () => {
   const [modalShow, setModalShow] = React.useState(false);
 
   const handleDelete = async (id)=>{
-    const urld = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/notifications/${id}`;
+    const urld = `https://mr-manish-xcell-backend.vercel.app/api/v1/notifications/${id}`;
     const token = localStorage.getItem("token");
     try{
       const res = await axios.delete(urld,

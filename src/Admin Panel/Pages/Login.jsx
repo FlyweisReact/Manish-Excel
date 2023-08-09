@@ -90,15 +90,15 @@ export const Login = () => {
       <div className={styles.inputBox}>
         <select name="role" onChange={HandleOnchange}>
           <option value="">Select Role</option>
-          {roles?.map((ele) => (
+          {/* {roles?.map((ele) => (
             <>
               <option key={ele.id} value={ele.role}>
                 {ele.role}
               </option>
             </>
-          ))}
-          <option value="sub-admin">Sub Admin</option>
-          <option value="sub-admin">Sub Admin</option>
+          ))} */}
+          <option value="Admin">Admin</option>
+          <option value="sub-Admin">Sub Admin</option>
         </select>
       </div>
       <button onClick={HandleLogin}>Log In</button>

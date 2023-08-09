@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export const PrivacyMainSection = () => {
 
   const [privacyPol, setPrivacyPol] = useState("");
-  const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/privacy";
+  const url = "https://mr-manish-xcell-backend.vercel.app/api/v1/privacy";
 
   const getPrivacy = async ()=>{
     const token = localStorage.getItem("token");
@@ -37,7 +37,7 @@ export const PrivacyMainSection = () => {
     const image = "https://i.mydramalist.com/R6W7x_5f.jpg";
     //console.log(image, productId, productName, stock, quantity, price);
     //const dispatch = useDispatch();
-    const urla = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/privacy";
+    const urla = "https://mr-manish-xcell-backend.vercel.app/api/v1/privacy";
     const handleClick = async (e)=>{
       e.preventDefault();
       try{

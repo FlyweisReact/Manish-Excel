@@ -89,7 +89,7 @@ export const TotalOrderMainSection = () => {
 
     //const dispatch = useDispatch();
     const urla =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/order-add";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/order-add";
     const handleClick = async (e) => {
       e.preventDefault();
       try {

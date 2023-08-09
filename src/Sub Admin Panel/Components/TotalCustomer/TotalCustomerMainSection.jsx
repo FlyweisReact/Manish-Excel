@@ -38,7 +38,7 @@ export const TotalCustomerMainSection = () => {
 
   useEffect(() => {
     const url =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/users";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/users";
     getAllCustomers(url);
   }, []);
 
@@ -89,7 +89,7 @@ export const TotalCustomerMainSection = () => {
             const [district, setDistrict] = useState("");
             const [pincode, setPincode] = useState("");
             //const dispatch = useDispatch();
-            const urla = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/add-customer";
+            const urla = "https://mr-manish-xcell-backend.vercel.app/api/v1/add-customer";
             const handleClick = async (e)=>{
               e.preventDefault();
               try{

@@ -15,7 +15,7 @@ export const HubAndCitiesMainSection = () => {
   const [city, setCity] = useState([]);
   const dispatch = useDispatch();
   const url =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/hub-cities";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/hub-cities";
 
 
   const getAllCities = async () => {
@@ -40,7 +40,7 @@ export const HubAndCitiesMainSection = () => {
 
   const handleDelete = async (id) => {
     const ud = localStorage.getItem("token");
-    const url = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/hub-cities/${id}`;
+    const url = `https://mr-manish-xcell-backend.vercel.app/api/v1/admin/hub-cities/${id}`;
     try {
       const res = await axios.delete(url, {
         headers: { Authorization: `Bearer ${ud}` },
@@ -57,7 +57,7 @@ export const HubAndCitiesMainSection = () => {
     const [city, setCity] = useState("");
     const dispatch = useDispatch();
     const url =
-      "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/hub-cities";
+      "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/hub-cities";
   
     
     const handleClick = async (e) => {

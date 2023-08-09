@@ -100,7 +100,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Branch</p>
-              <span>{branches.length}</span>
+              <span>{branches?.length}</span>
             </div>
             <div>
               <BsBuildingFillCheck />
@@ -122,7 +122,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Products</p>
-              <span>{products.length}</span>
+              <span>{products?.length}</span>
             </div>
             <div>
               <BsFillBoxFill />
@@ -133,7 +133,7 @@ export const MainSection = () => {
           <div className={styles.mainGridSubChild}>
             <div>
               <p>Total Orders</p>
-              <span>{orders.length}</span>
+              <span>{orders?.length}</span>
             </div>
             <div>
               <MdOutlineEditNote />

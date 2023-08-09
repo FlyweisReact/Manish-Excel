@@ -264,7 +264,7 @@ export const SiderBar = () => {
                           <p>Order Id : {orderTrack?.[0]?.order_id}</p>
                           <p>
                             Status As On Today : Arrived At{" "}
-                            {orderTrack?.[orderTrack.length - 1]?.city}
+                            {/* {orderTrack?.[orderTrack.length - 1]?.city} */}
                           </p>
                         </div>
                         {orderTrack?.map((ele, i) => (

@@ -22,7 +22,7 @@ export const TermAndConditionMainSec = () => {
     const image = "https://i.mydramalist.com/R6W7x_5f.jpg";
     //console.log(image, productId, productName, stock, quantity, price);
     const dispatch = useDispatch();
-    const url = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/terms";
+    const url = "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/terms";
     const handleClick = async (e)=>{
       e.preventDefault();
       try{

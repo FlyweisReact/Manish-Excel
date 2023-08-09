@@ -21,7 +21,7 @@ function MyVerticallyCenteredModal(props) {
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const url =
-    "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/admin/branches";
+    "https://mr-manish-xcell-backend.vercel.app/api/v1/admin/branches";
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -193,7 +193,7 @@ export const TotalBranch = () => {
 
   const handleClick = async (id) => {
     setModalShow2(true);
-    const urlbd = `https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/branches/${id}`;
+    const urlbd = `https://mr-manish-xcell-backend.vercel.app/api/v1/branches/${id}`;
     const token = localStorage.getItem("token");
     try {
       const res = await axios.get(urlbd, {

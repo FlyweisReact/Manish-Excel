@@ -4,15 +4,13 @@ import { MainInfo } from "../Dashboard/MainInfo";
 import stylesfromDash from "../../Styles/DashBoard.module.css";
 import styles from "../../Styles/TotalCustomer.module.css";
 import { BsEyeFill } from "react-icons/bs";
-import { SingleCostomerInfoModal } from "./SingleCostomerInfoModal";
-import { AddCustomerModal } from "./AddCustomerModal";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-export const TotalCustomerMainSection = () => {
+export const TotalUserMainSection = () => {
   const [tab, setTab] = useState("all");
   const [CustomerInfoModal, setCustomerInfoModal] = useState(false);
   const [addCustModal, setAddCustModal] = useState(false);
@@ -108,7 +106,7 @@ export const TotalCustomerMainSection = () => {
     const [district, setDistrict] = useState("");
     const [pincode, setPincode] = useState("");
     //const dispatch = useDispatch();
-    const urla = "https://mr-manish-xcell-backend.vercel.app/api/v1/add-customer";
+    const urla = "https://8vgi9if3ba.execute-api.ap-south-1.amazonaws.com/dev/api/v1/add-customer";
     const handleClick = async (e)=>{
       e.preventDefault();
       try{
@@ -215,21 +213,18 @@ export const TotalCustomerMainSection = () => {
             onChange={(e)=>setQuery(e.target.value)}
           />
         </div>
-        <AddCustomerModal
-          openModal={addCustModal}
-          HandleModal={HandleAddCustoModal}
-        />
+
         <button onClick={()=>setModalShow(true)}>Add Customer</button>
       </div>
 
       <div className={styles.CustomerMain}>
-        <p>Customer Detail's</p>
+        <p>User Detail's</p>
         <div className={styles.TabTitle}>
           <div
             onClick={() => setTab("all")}
             className={tab === "all" && styles.active}
           >
-            All Customers
+            All Users
           </div>
           <div
             onClick={() => setTab("new")}
@@ -239,20 +234,16 @@ export const TotalCustomerMainSection = () => {
           </div>
         </div>
         <hr />
-        <SingleCostomerInfoModal
-          openModal={CustomerInfoModal}
-          HandleModal={HandleModal}
-        />
         <div className={styles.tableDiv}>
           <table>
             <thead>
               <tr>
                 <th>First Name</th>
+                <th>Middle Name</th>
                 <th>Last Name</th>
-                <th>Address</th>
-                <th>State</th>
-                <th>District</th>
-                <th>Pincode</th>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Blood Group</th>
               </tr>
             </thead>
 
