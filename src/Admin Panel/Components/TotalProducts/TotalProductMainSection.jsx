@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
+import { MdQueryBuilder } from "react-icons/md";
 
 function MyVerticallyCenteredModal(props) {
   const ud = localStorage.getItem("token");
@@ -131,6 +132,17 @@ export const TotalProductMainSection = () => {
     }
   }
 
+  const [query, setQuery] = useState("");
+
+  const sd = !query ? products :
+    products?.filter((item,i)=>{
+      return item?.productName?.toLowerCase()?.includes(query?.toLowerCase()) 
+    })
+
+  const nsd = !query ? newProd :
+    newProd?.filter((item,i)=>{
+      return item?.productName?.toLowerCase()?.includes(query?.toLowerCase()) 
+    })
   
   return (
     <div className={stylesfromDash.mainSection}>
@@ -177,7 +189,7 @@ export const TotalProductMainSection = () => {
           <AiOutlineSearch className={styles.IconSearch} />
           <input
             type="text"
-            onChange={(e) => HandleSearch(e)}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by Product Id,Product Name etc"
           />
         </div>
@@ -197,8 +209,7 @@ export const TotalProductMainSection = () => {
 
             <tbody>
               {tab === "all"
-                ? searchData?.length > 0
-                  ? searchData?.map((ele) => (
+                ? sd?.map((ele) => (
                       <>
                         <tr key={ele._id}>
                           <td>
@@ -230,41 +241,7 @@ export const TotalProductMainSection = () => {
                         </tr>
                       </>
                     ))
-                  : products &&
-                    products?.map((ele) => (
-                      <>
-                        <tr key={ele._id}>
-                          <td>
-                            <img
-                              width={"80px"}
-                              height="80px"
-                              src={ele.image}
-                              alt={ele.image}
-                            />
-                          </td>
-                          <td>{ele.productId}</td>
-                          <td>{ele.productName}</td>
-                          <td>
-                            {ele.quantity > 0 ? (
-                              <>
-                                <GoPrimitiveDot color="green" />
-                                available
-                              </>
-                            ) : (
-                              <>
-                                <GoPrimitiveDot color="red" />
-                                unavailable
-                              </>
-                            )}
-                          </td>
-                          <td>{ele.quantity}</td>
-
-                          <td>&#x20b9;{ele.price}</td>
-                          <td><button onClick={()=>handleDelete(ele._id)}>Delete</button></td>
-                        </tr>
-                      </>
-                    ))
-                : newProd?.map((ele) => (
+                : nsd?.map((ele) => (
                     <>
                         <tr key={ele._id}>
                           <td>
